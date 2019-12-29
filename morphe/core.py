@@ -20,7 +20,7 @@ class MClassSelector(object):
 
 
 class MStyleRule(object):
-    def __init__(self): 
+    def __init__(self):
 
         self.selectors = []
         self.properties = []
@@ -45,12 +45,69 @@ class MMarker (object):
     def p(self, value):
         self.position = value
 
-def cut(text, startIndex, length = 1):
+    def copy(self):
+        m = MMarker()
+
+        m.p = self.p
+
+        return m
+
+
+def cut(text, startIndex, length=1):
     a = startIndex
     b = startIndex + length
     return text[a:b]
 
+
 class MImporter (object):
+
+    def _getProperty(inputText, marker):
+        m = marker.copy()
+
+        self._getWhiteSpace(inputText, m)
+        name = self._getPropertyName(inputText, m)
+
+        if name == None:
+            return None
+
+        self._getWhiteSpace(inputText, m)
+
+        c = cut(inputText, m.p)
+
+        if c != ":":
+            return None
+
+        value = self._getPropertyValue(inputText, m)
+
+        if value == None:
+            return None
+
+        c = cut(inputText, m.p)
+
+        if c != ";":
+            return None
+
+        p = MProperty(name, value)
+
+        return p
+
+    def _getPropertyValue(inputText, marker):
+        m = marker
+        t = ""
+
+        while m.p < len(inputText):
+            c = cut(inputText, m.p)
+
+            if c not in ";\{\}":
+                t += c
+                m.p += 1
+            else:
+                break
+
+        if len(t) == 0:
+            return None
+
+        return t
 
     def _getPropertyName(inputText, marker):
         m = marker
@@ -69,10 +126,6 @@ class MImporter (object):
             return None
 
         return t
-
-
-
-
 
     def _getWhiteSpace(inputText, marker):
         m = marker
