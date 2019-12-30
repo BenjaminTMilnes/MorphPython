@@ -27,3 +27,25 @@ p.red {
 }
 
 ```
+
+## Basic usage
+
+Get a Morphe document from a string:
+
+```python
+
+from morphe.core import *
+
+document = importMorpheDocument(morpheString)
+
+```
+
+Convert a Morphe document to a string:
+
+```python
+
+from morphe.core import *
+
+morpheString = exportMorpheDocument(document)
+
+```
