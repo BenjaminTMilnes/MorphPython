@@ -145,6 +145,8 @@ class MImporter (object):
 
             wasNone = True
 
+        marker.p = m.p
+
         return selectors
 
     def _getClassSelector(self, inputText, marker):
@@ -170,6 +172,8 @@ class MImporter (object):
         if len(t) == 0:
             return None
 
+        marker.p = m.p
+
         s = MClassSelector(t)
 
         return s
@@ -189,6 +193,8 @@ class MImporter (object):
 
         if len(t) == 0:
             return None
+
+        marker.p = m.p
 
         s = MElementNameSelector(t)
 

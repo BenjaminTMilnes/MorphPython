@@ -3,6 +3,19 @@ from parameterized import parameterized
 
 from morphe.core import *
 
+example1 = """
+
+p {
+    font-size: 12pt;
+    font-colour: black;
+    margin: 12pt 16pt;
+}
+
+.red {
+    font-colour: red;
+}
+
+"""
 
 class TestImporter(unittest.TestCase):
 
@@ -22,6 +35,22 @@ class TestImporter(unittest.TestCase):
 
         self.assertEqual(p.name, name)
         self.assertEqual(p.value, value)
+
+    def test_import_example_1(self):
+
+        importer = MImporter()
+
+        d = importer.importDocument(example1)
+
+        self.assertEqual(2, len(d.styleRules))
+
+        sr1 = d.styleRules[0]
+        sr2 = d.styleRules[1]
+
+        self.assertEqual(3, len(sr1.properties))
+        self.assertEqual(1, len(sr2.properties))
+
+
 
 
 if __name__ == "__main__":
