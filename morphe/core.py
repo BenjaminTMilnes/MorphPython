@@ -12,11 +12,16 @@ class MNumber(object):
 
         self.value = value
 
+    def __str__(self):
+        return self.value
 
 class MLengthUnit(object):
     def __init__(self, value=""):
 
         self.value = value
+
+    def __str__(self):
+        return self.value
 
 
 class MLength(object):
@@ -25,11 +30,17 @@ class MLength(object):
         self.number = MNumber(number)
         self.unit = MLengthUnit(unit)
 
+    def __str__(self):
+        return str(self.number) + str(self.unit)
+
 
 class MLengthSet(object):
     def __init__(self):
 
         self.lengths = []
+
+    def __str__(self):
+        return " ".join([str(l) for l in self.lengths])
 
 
 class MElementNameSelector(object):
@@ -364,7 +375,7 @@ class MImporter (object):
 
         marker.p = m.p
 
-        p = MProperty(name.strip(), value.strip())
+        p = MProperty(name.strip(), value)
 
         return p
 
@@ -387,6 +398,11 @@ class MImporter (object):
         return t
 
     def _getPropertyValue(self, inputText, marker):
+        lengthSet = self._getLengthSet(inputText, marker)
+
+        if lengthSet != None:
+            return lengthSet
+
         m = marker
         t = ""
 
@@ -402,7 +418,7 @@ class MImporter (object):
         if len(t) == 0:
             return None
 
-        return t
+        return t.strip()
 
     def _getLengthSet(self, inputText, marker):
         m = marker.copy()
@@ -466,7 +482,7 @@ class MImporter (object):
             if c in "0123456789":
                 t += c
                 m.p += 1
-            if c == "." and q == 0:
+            elif c == "." and q == 0:
                 t += c
                 q += 1
                 m.p += 1

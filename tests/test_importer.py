@@ -23,12 +23,23 @@ p {
 class TestImporter(unittest.TestCase):
 
     @parameterized.expand([
+        ["2cm", [["2", "cm"]]],
+        ["2cm 2cm", [["2", "cm"], ["2", "cm"]]],
+        ["2cm 2cm 2cm 2cm", [["2", "cm"], ["2", "cm"], ["2", "cm"], ["2", "cm"]]],
+    ])
+    def test_import_length_set(self, text, a):
+
+        importer = MImporter()
+
+        ls = importer._getLengthSet(text, MMarker())
+
+        self.assertEqual(len(ls.lengths), len(a))
+
+    @parameterized.expand([
         ["page-size: a4;", "page-size", "a4"],
         ["page-margin: 2cm 2cm 2cm 2cm;", "page-margin", "2cm 2cm 2cm 2cm"],
-        ["font-name: 'Open Sans', sans-serif;",
-            "font-name", "'Open Sans', sans-serif"],
-        ["font-colour: hsl(350, 60%, 60%);", "font-colour",
-         "hsl(350, 60%, 60%)"],
+        ["font-name: 'Open Sans', sans-serif;", "font-name", "'Open Sans', sans-serif"],
+        ["font-colour: hsl(350, 60%, 60%);", "font-colour", "hsl(350, 60%, 60%)"],
     ])
     def test_import_property(self, text, name, value):
 
@@ -37,7 +48,7 @@ class TestImporter(unittest.TestCase):
         p = importer._getProperty(text, MMarker())
 
         self.assertEqual(p.name, name)
-        self.assertEqual(p.value, value)
+        self.assertEqual(str(p.value), value)
 
     def test_import_example_1(self):
 
@@ -59,17 +70,30 @@ class TestImporter(unittest.TestCase):
         p3 = sr1.properties[2]
 
         self.assertEqual(p1.name, "font-size")
-        self.assertEqual(p1.value, "12pt")
+
+        ls1 = MLengthSet()
+        ls1.lengths.append(MLength("12", "pt"))
+
+        self.assertTrue(isinstance(p1.value, MLengthSet))
+        self.assertEqual(len(p1.value.lengths), 1)
+        self.assertEqual(str(p1.value), str(ls1))
 
         self.assertEqual(p2.name, "font-colour")
         self.assertEqual(p2.value, "black")
 
         self.assertEqual(p3.name, "margin")
-        self.assertEqual(p3.value, "12pt 16pt")
+
+        ls2 = MLengthSet()
+        ls2.lengths.append(MLength("12", "pt"))
+        ls2.lengths.append(MLength("16", "pt"))
+
+        self.assertTrue(isinstance(p3.value, MLengthSet))
+        self.assertEqual(len(p3.value.lengths), 2)
+        self.assertEqual(str(p3.value), str(ls2))
 
         self.assertEqual(1, len(sr2.selectors))
         self.assertEqual(1, len(sr2.properties))
-        
+
         p4 = sr2.properties[0]
 
         self.assertEqual(p4.name, "font-colour")
