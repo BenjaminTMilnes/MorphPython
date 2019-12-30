@@ -18,6 +18,11 @@ class MClassSelector(object):
 
         self.className = className
 
+class MIdSelector (object):
+    def __init__(self, i = ""):
+
+        self.id = i
+
 
 class MStyleRule(object):
     def __init__(self):
@@ -48,6 +53,8 @@ class MExporter (object):
             return selector.elementName
         if isinstance(selector, MClassSelector):
             return "." + selector.className
+        if isinstance(selector, MIdSelector):
+            return "#" + selector.id
 
     def exportProperties(self, properties, inline=False):
         if inline == True:
@@ -148,6 +155,12 @@ class MImporter (object):
 
         while wasNone == False:
 
+            s = self._getIdSelector(inputText, m)
+
+            if s != None:
+                selectors.append(s)
+                continue
+
             s = self._getClassSelector(inputText, m)
 
             if s != None:
@@ -165,6 +178,35 @@ class MImporter (object):
         marker.p = m.p
 
         return selectors
+
+    def _getIdSelector(self, inputText, marker):
+        m = marker.copy()
+        t = ""
+
+        c = cut(inputText, m.p)
+
+        if c != "#":
+            return None
+
+        m.p += 1
+
+        while m.p < len(inputText):
+            c = cut(inputText, m.p)
+
+            if c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_":
+                t += c
+                m.p += 1
+            else:
+                break
+
+        if len(t) == 0:
+            return None
+
+        marker.p = m.p
+
+        s = MIdSelector(t)
+
+        return s
 
     def _getClassSelector(self, inputText, marker):
         m = marker.copy()

@@ -13,6 +13,10 @@ p {
 
 .red { font-colour: red; }
 
+#infobox {
+    border: 1px solid blue;
+}
+
 """
 
 
@@ -41,10 +45,11 @@ class TestImporter(unittest.TestCase):
 
         d = importer.importDocument(example1)
 
-        self.assertEqual(2, len(d.styleRules))
+        self.assertEqual(3, len(d.styleRules))
 
         sr1 = d.styleRules[0]
         sr2 = d.styleRules[1]
+        sr3 = d.styleRules[2]
 
         self.assertEqual(1, len(sr1.selectors))
         self.assertEqual(3, len(sr1.properties))
@@ -69,6 +74,13 @@ class TestImporter(unittest.TestCase):
 
         self.assertEqual(p4.name, "font-colour")
         self.assertEqual(p4.value, "red")
+
+        self.assertEqual(1, len(sr3.selectors))
+        self.assertEqual(1, len(sr3.properties))
+
+        s3 = sr3.selectors[0]
+
+        self.assertEqual(s3.id, "infobox")
 
 
 if __name__ == "__main__":
