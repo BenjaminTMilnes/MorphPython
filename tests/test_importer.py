@@ -23,6 +23,47 @@ p {
 class TestImporter(unittest.TestCase):
 
     @parameterized.expand([
+        ["123"],
+        ["123123"],
+        ["123."],
+        ["123.0"],
+        ["123.000"],
+        ["123.123"],
+        ["1.123"],
+        ["0.123"],
+        [".123"],
+        ["000.123"]
+    ])
+    def test_import_number(self, n):
+
+        importer = MImporter()
+
+        number = importer._getNumber(n, MMarker())
+
+        self.assertTrue(isinstance(number, MNumber))
+        self.assertEqual(number.value, n)
+
+    @parameterized.expand([
+        ["123mm"],
+        ["123123cm"],
+        ["123.dm"],
+        ["123.0m"],
+        ["123.000in"],
+        ["123.123pt"],
+        ["1.123pc"],
+        ["0.123 mm"],
+        [".123   cm"],
+        ["000.123      dm"]
+    ])
+    def test_import_length(self, n):
+
+        importer = MImporter()
+
+        length = importer._getLength(n, MMarker())
+
+        self.assertTrue(isinstance(length, MLength))
+
+    @parameterized.expand([
         ["2cm", [["2", "cm"]]],
         ["2cm 2cm", [["2", "cm"], ["2", "cm"]]],
         ["2cm 2cm 2cm 2cm", [["2", "cm"], ["2", "cm"], ["2", "cm"], ["2", "cm"]]],

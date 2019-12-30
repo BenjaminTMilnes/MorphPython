@@ -492,6 +492,9 @@ class MImporter (object):
         if len(t) == 0:
             return None
 
+        if t == ".":
+            return None
+
         number = MNumber(t)
 
         return number
@@ -499,14 +502,15 @@ class MImporter (object):
     def _getLengthUnit(self, inputText, marker):
         m = marker
 
-        if m.p <= len(inputText) - 2:
-            c = cut(inputText, m.p, 2)
+        for lu in self.lengthUnits:
+            if m.p <= len(inputText) - len(lu):
+                c = cut(inputText, m.p, len(lu))
 
-            if c in self.lengthUnits:
-                lu = MLengthUnit(c)
-                m.p += len(c)
+                if c == lu:
+                    lengthUnit = MLengthUnit(c)
+                    m.p += len(c)
 
-                return lu
+                    return lengthUnit
 
         return None
 
