@@ -23,7 +23,7 @@ p {
 class TestImporter(unittest.TestCase):
 
     @parameterized.expand([
-        ["123"],
+        ["123."],
         ["123123"],
         ["123."],
         ["123.0"],

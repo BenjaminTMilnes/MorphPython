@@ -151,6 +151,11 @@ def cut(text, startIndex, length=1):
     return text[a:b]
 
 
+class MorpheSyntaxError(Exception):
+    def __init__(self, message):
+        super(MorpheSyntaxError, self).__init__(message)
+
+
 class MImporter (object):
     def __init__(self):
 
@@ -425,17 +430,15 @@ class MImporter (object):
         m = marker.copy()
 
         lengths = []
-        wasNone = False
 
-        while wasNone == False:
-            self._getWhiteSpace(inputText, m)
-
+        while True:
+            self._getWhiteSpace(inputText, m) 
             length = self._getLength(inputText, m)
 
             if length != None:
                 lengths.append(length)
             else:
-                wasNone = True
+                break
 
         if len(lengths) == 0:
             return None
@@ -483,7 +486,7 @@ class MImporter (object):
             if c in "0123456789":
                 t += c
                 m.p += 1
-            elif c == "." and q == 0:
+            elif c == ".":
                 t += c
                 q += 1
                 m.p += 1
@@ -493,8 +496,8 @@ class MImporter (object):
         if len(t) == 0:
             return None
 
-        if t == ".":
-            return None
+        if t == "." or q > 1:
+            raise MorpheSyntaxError("'{0}' is not a valid number.".format(t))
 
         number = MNumber(t)
 
