@@ -7,15 +7,14 @@ example1 = """
 
 p {
     font-size: 12pt;
-    font-colour: black;
-    margin: 12pt 16pt;
+    font-colour   :   black   ;
+    margin   :12pt 16pt   ;
 }
 
-.red {
-    font-colour: red;
-}
+.red { font-colour: red; }
 
 """
+
 
 class TestImporter(unittest.TestCase):
 
@@ -47,10 +46,29 @@ class TestImporter(unittest.TestCase):
         sr1 = d.styleRules[0]
         sr2 = d.styleRules[1]
 
+        self.assertEqual(1, len(sr1.selectors))
         self.assertEqual(3, len(sr1.properties))
+
+        p1 = sr1.properties[0]
+        p2 = sr1.properties[1]
+        p3 = sr1.properties[2]
+
+        self.assertEqual(p1.name, "font-size")
+        self.assertEqual(p1.value, "12pt")
+
+        self.assertEqual(p2.name, "font-colour")
+        self.assertEqual(p2.value, "black")
+
+        self.assertEqual(p3.name, "margin")
+        self.assertEqual(p3.value, "12pt 16pt")
+
+        self.assertEqual(1, len(sr2.selectors))
         self.assertEqual(1, len(sr2.properties))
+        
+        p4 = sr2.properties[0]
 
-
+        self.assertEqual(p4.name, "font-colour")
+        self.assertEqual(p4.value, "red")
 
 
 if __name__ == "__main__":
