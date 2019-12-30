@@ -262,7 +262,7 @@ class MImporter (object):
 
         marker.p = m.p
 
-        p = MProperty(name, value)
+        p = MProperty(name.strip(), value.strip())
 
         return p
 
