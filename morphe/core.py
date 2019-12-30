@@ -39,8 +39,7 @@ class MExporter (object):
 
     def exportStyleRule(self, styleRule):
         ss = "".join([self.exportSelector(s) for s in styleRule.selectors])
-        pp = "".join(["\t" + self.exportProperty(p) +
-                      "\n" for p in styleRule.properties])
+        pp = self.exportProperties(styleRule.properties)
         t = ss + " {\n" + pp + "}\n\n"
         return t
 
@@ -50,8 +49,26 @@ class MExporter (object):
         if isinstance(selector, MClassSelector):
             return "." + selector.className
 
+    def exportProperties(self, properties, inline=False):
+        if inline == True:
+            return " ".join([self.exportProperty(p) for p in properties])
+        else:
+            return "".join(["\t" + self.exportProperty(p) + "\n" for p in properties])
+
     def exportProperty(self, p):
         return p.name.strip() + ": " + p.value.strip() + ";"
+
+
+def exportMorpheDocument(document):
+    exporter = MExporter()
+
+    return exporter.exportDocument(document)
+
+
+def exportMorpheProperties(properties, inline=True):
+    exporter = MExporter()
+
+    return exporter.exportProperties(properties, inline)
 
 
 class MMarker (object):
@@ -325,3 +342,15 @@ class MImporter (object):
             return None
 
         return t
+
+
+def importMorpheDocument(document):
+    importer = MImporter()
+
+    return importer.importDocument(document)
+
+
+def importMorpheProperties(properties):
+    importer = MImporter()
+
+    return importer._getProperties(properties, MMarker())
