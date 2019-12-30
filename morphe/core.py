@@ -15,6 +15,7 @@ class MNumber(object):
     def __str__(self):
         return self.value
 
+
 class MLengthUnit(object):
     def __init__(self, value=""):
 
