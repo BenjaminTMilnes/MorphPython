@@ -7,6 +7,31 @@ class MProperty(object):
         self.value = value
 
 
+class MNumber(object):
+    def __init__(self, value=""):
+
+        self.value = value
+
+
+class MLengthUnit(object):
+    def __init__(self, value=""):
+
+        self.value = value
+
+
+class MLength(object):
+    def __init__(self, number="", unit=""):
+
+        self.number = MNumber(number)
+        self.unit = MLengthUnit(unit)
+
+
+class MLengthSet(object):
+    def __init__(self):
+
+        self.lengths = []
+
+
 class MElementNameSelector(object):
     def __init__(self, elementName=""):
 
@@ -18,8 +43,9 @@ class MClassSelector(object):
 
         self.className = className
 
+
 class MIdSelector (object):
-    def __init__(self, i = ""):
+    def __init__(self, i=""):
 
         self.id = i
 
@@ -63,7 +89,15 @@ class MExporter (object):
             return "".join(["\t" + self.exportProperty(p) + "\n" for p in properties])
 
     def exportProperty(self, p):
-        return p.name.strip() + ": " + p.value.strip() + ";"
+        return p.name.strip() + ": " + self.exportPropertyValue(p.value) + ";"
+
+    def exportPropertyValue(self, value):
+        if isinstance(value, MLength):
+            return value.number.value + value.unit.value
+        if isinstance(value, MLengthSet):
+            return " ".join([l.number.value + l.unit.value for l in value.lengths])
+
+        return str(value).strip()
 
 
 def exportMorpheDocument(document):
