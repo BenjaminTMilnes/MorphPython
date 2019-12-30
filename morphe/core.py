@@ -51,7 +51,7 @@ class MExporter (object):
             return "." + selector.className
 
     def exportProperty(self, p):
-        return p.name + ": " + p.value + ";"
+        return p.name.strip() + ": " + p.value.strip() + ";"
 
 
 class MMarker (object):
