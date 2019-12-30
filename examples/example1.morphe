@@ -1,0 +1,15 @@
+
+.main {
+    page-size: a4;
+    font-height: 12pt;
+    font-colour: black;
+}
+
+h1 {
+    font-height: 20pt;
+    font-weight: bold;
+}
+
+p {
+    margin: 6pt 0pt;
+}
