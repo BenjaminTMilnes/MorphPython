@@ -41,14 +41,14 @@ class MExporter (object):
         ss = "".join([self.exportSelector(s) for s in styleRule.selectors])
         pp = "".join(["\t" + self.exportProperty(p) +
                       "\n" for p in styleRule.properties])
-        t = ss + " \{\n" + pp + "\}\n\n"
+        t = ss + " {\n" + pp + "}\n\n"
         return t
 
     def exportSelector(self, selector):
         if isinstance(selector, MElementNameSelector):
             return selector.elementName
         if isinstance(selector, MClassSelector):
-            return selector.className
+            return "." + selector.className
 
     def exportProperty(self, p):
         return p.name + ": " + p.value + ";"
@@ -201,7 +201,7 @@ class MImporter (object):
 
         c = cut(inputText, m.p)
 
-        if c != "\{":
+        if c != "{":
             return None
 
         m.p += 1
@@ -221,7 +221,7 @@ class MImporter (object):
 
         c = cut(inputText, m.p)
 
-        if c != "\}":
+        if c != "}":
             return None
 
         m.p += 1
@@ -291,7 +291,7 @@ class MImporter (object):
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c not in ";\{\}":
+            if c not in ";}{":
                 t += c
                 m.p += 1
             else:
