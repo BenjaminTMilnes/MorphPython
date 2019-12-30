@@ -140,6 +140,9 @@ def cut(text, startIndex, length=1):
 
 
 class MImporter (object):
+    def __init__(self):
+
+        self.lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
 
     def importDocument(self, inputText):
         marker = MMarker()
@@ -400,6 +403,96 @@ class MImporter (object):
             return None
 
         return t
+
+    def _getLengthSet(self, inputText, marker):
+        m = marker.copy()
+
+        lengths = []
+        wasNone = False
+
+        while wasNone == False:
+            self._getWhiteSpace(inputText, m)
+
+            length = self._getLength(inputText, m)
+
+            if length != None:
+                lengths.append(length)
+            else:
+                wasNone = True
+
+        if len(lengths) == 0:
+            return None
+
+        marker.p = m.p
+
+        lengthSet = MLengthSet()
+
+        lengthSet.lengths = lengths
+
+        return lengthSet
+
+    def _getLength(self, inputText, marker):
+        m = marker.copy()
+
+        number = self._getNumber(inputText, m)
+
+        if number == None:
+            return None
+
+        self._getWhiteSpace(inputText, m)
+
+        unit = self._getLengthUnit(inputText, m)
+
+        if unit == None:
+            return None
+
+        marker.p = m.p
+
+        length = MLength()
+
+        length.number = number
+        length.unit = unit
+
+        return length
+
+    def _getNumber(self, inputText, marker):
+        m = marker
+        t = ""
+        q = 0
+
+        while m.p < len(inputText):
+            c = cut(inputText, m.p)
+
+            if c in "0123456789":
+                t += c
+                m.p += 1
+            if c == "." and q == 0:
+                t += c
+                q += 1
+                m.p += 1
+            else:
+                break
+
+        if len(t) == 0:
+            return None
+
+        number = MNumber(t)
+
+        return number
+
+    def _getLengthUnit(self, inputText, marker):
+        m = marker
+
+        if m.p <= len(inputText) - 2:
+            c = cut(inputText, m.p, 2)
+
+            if c in self.lengthUnits:
+                lu = MLengthUnit(c)
+                m.p += len(c)
+
+                return lu
+
+        return None
 
     def _getWhiteSpace(self, inputText, marker):
         m = marker
