@@ -32,6 +32,28 @@ class MDocument(object):
         self.styleRules = []
 
 
+class MExporter (object):
+
+    def exportDocument(self, document):
+        return "".join([self.exportStyleRule(sr) for sr in document.styleRules])
+
+    def exportStyleRule(self, styleRule):
+        ss = "".join([self.exportSelector(s) for s in styleRule.selectors])
+        pp = "".join(["\t" + self.exportProperty(p) +
+                      "\n" for p in styleRule.properties])
+        t = ss + " \{\n" + pp + "\}\n\n"
+        return t
+
+    def exportSelector(self, selector):
+        if isinstance(selector, MElementNameSelector):
+            return selector.elementName
+        if isinstance(selector, MClassSelector):
+            return selector.className
+
+    def exportProperty(self, p):
+        return p.name + ": " + p.value + ";"
+
+
 class MMarker (object):
     def __init__(self):
 
