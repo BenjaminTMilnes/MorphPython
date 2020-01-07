@@ -543,6 +543,13 @@ def importMorpheDocument(document):
     return importer.importDocument(document)
 
 
+def importMorpheDocumentFromFile(filePath):
+    with open(filePath, "r") as fo:
+        data = fo.read()
+
+        return importMorpheDocument(data)
+
+
 def importMorpheProperties(properties):
     importer = MImporter()
 
