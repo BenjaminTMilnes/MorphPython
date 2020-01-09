@@ -118,6 +118,16 @@ class MLength(object):
 
 
 class MLengthSet(object):
+    """
+    Represents a Morphe length set. A length set is a list of n lengths, where 
+    n >= 1.
+
+    Attributes
+    ----------
+    lengths : list<MLength>
+        The list of lengths in this set
+    """
+
     def __init__(self):
 
         self.lengths = []
@@ -127,24 +137,91 @@ class MLengthSet(object):
 
 
 class MElementNameSelector(object):
+    """
+    Represents a Morphe element name selector.
+
+    Parameters
+    ----------
+    elementName : str
+        The element name to select
+
+    Attributes
+    ----------
+    elementName : str
+        The element name to select
+    """
+
     def __init__(self, elementName=""):
 
         self.elementName = elementName
 
+    def __str__(self):
+        return self.elementName
+
 
 class MClassSelector(object):
+    """
+    Represents a Morphe class name selector.
+
+    Parameters
+    ----------
+    className : str
+        The class name to select
+
+    Attributes
+    ----------
+    className : str
+        The class name to select
+    """
+
     def __init__(self, className=""):
 
         self.className = className
 
+    def __str__(self):
+        return ".{0}".format(self.className)
 
-class MIdSelector (object):
-    def __init__(self, i=""):
 
-        self.id = i
+class MIdSelector(object):
+    """
+    Represents a Morphe id selector.
+
+    Parameters
+    ----------
+    _id : str
+        The id to select
+
+    Attributes
+    ----------
+    id : str
+        The id to select
+    """
+
+    def __init__(self, _id=""):
+
+        self.id = _id
+
+    def __str__(self):
+        return "#{0}".format(self.id)
 
 
 class MStyleRule(object):
+    """
+    Represents a Morphe style rule. A style rule consists of a list of 
+    selectors and a list of style properties.
+
+    When applied to a Graphe document, the elements of the document will be 
+    filtered based on the selectors of the style rule, and the style properties 
+    will be applied to each matching element.
+
+    Attributes
+    ----------
+    selectors : list
+        A list of Morphe selectors
+    properties : list<MProperty>
+        A list of Morphe style properties
+    """
+
     def __init__(self):
 
         self.selectors = []
@@ -152,13 +229,21 @@ class MStyleRule(object):
 
 
 class MDocument(object):
+    """
+    Represents a Morphe document. A Morphe document contains a list of style rules.
+
+    Attributes
+    ----------
+    styleRules : list<MStyleRule>
+        A list of style rules within the document
+    """
+
     def __init__(self):
 
         self.styleRules = []
 
 
-class MExporter (object):
-
+class MExporter(object):
     def exportDocument(self, document):
         return "".join([self.exportStyleRule(sr) for sr in document.styleRules])
 
