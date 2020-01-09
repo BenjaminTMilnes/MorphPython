@@ -1,10 +1,33 @@
 
 
 class MProperty(object):
+    """
+    Represents a Morphe style property. Style properties have two attributes: a 
+    name, which must be a string, and a value, which can be anything, but which 
+    is set to a string by default.
+
+    Parameters
+    ----------
+    name : str
+        The name of this style property
+    value
+        The value of this style property
+
+    Attributes
+    ----------
+    name : str
+        The name of this style property
+    value
+        The value of this style property
+    """
+
     def __init__(self, name="", value=""):
 
         self.name = name
         self.value = value
+
+    def __str__(self):
+        return "{0}: {1};".format(self.name, self.value)
 
 
 class MNumber(object):
@@ -432,7 +455,7 @@ class MImporter (object):
         lengths = []
 
         while True:
-            self._getWhiteSpace(inputText, m) 
+            self._getWhiteSpace(inputText, m)
             length = self._getLength(inputText, m)
 
             if length != None:
