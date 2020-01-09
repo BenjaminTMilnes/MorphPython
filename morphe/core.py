@@ -31,6 +31,21 @@ class MProperty(object):
 
 
 class MNumber(object):
+    """
+    Represents a number in a Morphe document. This class just acts as a 
+    container for a number written as a string.
+
+    Parameters
+    ----------
+    value : str
+        The string representation of the number
+
+    Attributes
+    ----------
+    value : str
+        The string representation of the number
+    """
+
     def __init__(self, value=""):
 
         self.value = value
@@ -40,6 +55,31 @@ class MNumber(object):
 
 
 class MLengthUnit(object):
+    """
+    Represents a Morphe length unit. Morphe length units are a subset of 
+    physical length units that are useful for things on the scale of printed 
+    documents.
+
+    The allowed values are:
+
+    "mm" - millimetres
+    "cm" - centimetres
+    "dm" - decimetres
+    "m" - metres
+    "in" - inches
+    "pt" - points
+
+    Parameters
+    ----------
+    value : str
+        The string representation of the length unit
+
+    Attributes
+    ----------
+    value : str
+        The string representation of the length unit
+    """
+
     def __init__(self, value=""):
 
         self.value = value
@@ -49,13 +89,32 @@ class MLengthUnit(object):
 
 
 class MLength(object):
+    """
+    Represents a Morphe length. A length consists of a magnitude and a length 
+    unit.
+
+    Parameters
+    ----------
+    number : str
+        The string representation of the magnitude of this length
+    unit : str
+        The string representation of the unit of this length
+
+    Attributes
+    ----------
+    number : MNumber
+        A Morphe number representing the magnitude of this length
+    unit : MLengthUnit
+        A Morphe length unit representing the unit of this length
+    """
+
     def __init__(self, number="", unit=""):
 
         self.number = MNumber(number)
         self.unit = MLengthUnit(unit)
 
     def __str__(self):
-        return str(self.number) + str(self.unit)
+        return "{0}{1}".format(self.number, self.unit)
 
 
 class MLengthSet(object):
