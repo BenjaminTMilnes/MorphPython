@@ -27,7 +27,7 @@ class MProperty(object):
         self.value = value
 
     def __str__(self):
-        return "{0}: {1};".format(self.name, self.value)
+        return "{0}: {1};".format(self.name.strip(), self.value)
 
 
 class MNumber(object):
@@ -51,7 +51,7 @@ class MNumber(object):
         self.value = value
 
     def __str__(self):
-        return self.value
+        return self.value.strip()
 
 
 class MLengthUnit(object):
@@ -85,7 +85,7 @@ class MLengthUnit(object):
         self.value = value
 
     def __str__(self):
-        return self.value
+        return self.value.strip()
 
 
 class MLength(object):
@@ -244,6 +244,9 @@ class MDocument(object):
 
 
 class MExporter(object):
+    """
+    Handles converting Morphe objects into their text representation.
+    """
     def exportDocument(self, document):
         return "".join([self.exportStyleRule(sr) for sr in document.styleRules])
 
@@ -257,26 +260,15 @@ class MExporter(object):
         if isinstance(selector, MElementNameSelector):
             return selector.elementName
         if isinstance(selector, MClassSelector):
-            return "." + selector.className
+            return ".{0}".format( selector.className)
         if isinstance(selector, MIdSelector):
-            return "#" + selector.id
+            return "#{0}".format( selector.id)
 
     def exportProperties(self, properties, inline=False):
         if inline == True:
-            return " ".join([self.exportProperty(p) for p in properties])
+            return " ".join(["{0}".format(p) for p in properties])
         else:
-            return "".join(["\t" + self.exportProperty(p) + "\n" for p in properties])
-
-    def exportProperty(self, p):
-        return p.name.strip() + ": " + self.exportPropertyValue(p.value) + ";"
-
-    def exportPropertyValue(self, value):
-        if isinstance(value, MLength):
-            return value.number.value + value.unit.value
-        if isinstance(value, MLengthSet):
-            return " ".join([l.number.value + l.unit.value for l in value.lengths])
-
-        return str(value).strip()
+            return "".join(["\t{0}\n".format(p) for p in properties])
 
 
 def exportMorpheDocument(document):
