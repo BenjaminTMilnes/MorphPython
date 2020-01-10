@@ -27,7 +27,7 @@ class MProperty(object):
         self.value = value
 
     def __str__(self):
-        return "{0}: {1};".format(self.name.strip(), self.value)
+        return "{0}: {1};".format(self.name.strip(), str(self.value).strip())
 
 
 class MNumber(object):

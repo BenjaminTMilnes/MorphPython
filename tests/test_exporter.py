@@ -12,9 +12,7 @@ class TestExporter(unittest.TestCase):
     ])
     def test_export_property(self, p, text):
 
-        exporter = MExporter()
-
-        self.assertEqual(exporter.exportProperty(p), text)
+        self.assertEqual(str(p), text)
 
     def test_export_example_1(self):
 
