@@ -609,24 +609,36 @@ class MImporter(object):
         return t.strip()
 
     def _getLengthSet(self, inputText, marker):
+        """
+        Gets a length set at the current position and returns it.
+        """
         m = marker.copy()
 
+        # A list to store the lengths that are found
         lengths = []
 
+        # Keep iterating as long as another length expression is found.
         while True:
             self._getWhiteSpace(inputText, m)
+            # See if there is a length at the current position.
+            # If there is, this function moves the marker along.
             length = self._getLength(inputText, m)
 
             if length != None:
+                # If there is a length, then add it to the list.
                 lengths.append(length)
             else:
+                # If not, then the current length set has ended, so stop
+                # iterating.
                 break
 
         if len(lengths) == 0:
+            # If no lengths were found, return nothing.
             return None
 
         marker.p = m.p
 
+        # Otherwise, return a length set.
         lengthSet = MLengthSet()
 
         lengthSet.lengths = lengths
@@ -639,20 +651,30 @@ class MImporter(object):
         """
         m = marker.copy()
 
+        # First, see if there's a number at the current position.
         number = self._getNumber(inputText, m)
 
         if number == None:
+            # A length expression must start with a number, so if there isn't
+            # one, return nothing.
             return None
 
+        # There may be optional white space here - if there is, skip over it.
         self._getWhiteSpace(inputText, m)
 
+        # Now see if there's a length unit at the current position.
         unit = self._getLengthUnit(inputText, m)
 
         if unit == None:
+            # A length expression must have a length unit, so if there isn't
+            # one, return nothing.
             return None
 
         marker.p = m.p
 
+        # If both a number and a length unit have been found, then that's a
+        # length expression, so make a new length, set the number and unit
+        # and return it.
         length = MLength()
 
         length.number = number
@@ -666,27 +688,43 @@ class MImporter(object):
         """
         m = marker
         t = ""
+        # q is the number of decimal points that have been seen.
+        # Only one decimal point is allowed in a number.
         q = 0
 
+        # Iterate over the characters in the input text.
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
             if c in "0123456789":
+                # If the current character is a digit, then it is part of a
+                # number, so add it to a temporary string, and move the marker
+                # along by 1.
                 t += c
                 m.p += 1
             elif c == ".":
+                # If the current character is a decimal point, then add it to
+                # the temporary string, move the marker along by 1, and
+                # increase the decimal point counter by 1.
                 t += c
                 q += 1
                 m.p += 1
             else:
+                # If the current character is anything else, then it is not part
+                # of the current number, so stop iterating.
                 break
 
         if len(t) == 0:
+            # If no digits were found, return nothing.
             return None
 
         if t == "." or q > 1:
+            # If all that was found was a single decimal point, or if there
+            # was more than one decimal point, then the number is not a valid
+            # number, so raise a Morphe syntax error.
             raise MorpheSyntaxError("'{0}' is not a valid number.".format(t))
 
+        # Otherwise return the number.
         number = MNumber(t)
 
         return number
@@ -697,16 +735,20 @@ class MImporter(object):
         """
         m = marker
 
+        # Iterate over the allowed length units
         for lu in self.lengthUnits:
             if m.p <= len(inputText) - len(lu):
                 c = cut(inputText, m.p, len(lu))
 
                 if c == lu:
+                    # If any of the length unit symbols is at the current
+                    # position, then return it.
                     lengthUnit = MLengthUnit(c)
                     m.p += len(c)
 
                     return lengthUnit
 
+        # Otherwise return nothing.
         return None
 
     def _getWhiteSpace(self, inputText, marker):
@@ -716,18 +758,26 @@ class MImporter(object):
         m = marker
         t = ""
 
+        # Iterate over the characters in the input text
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
             if c in " \t\n":
+                # If the current character is a white space character, then add
+                # it to a temporary string, and move the marker along by 1.
                 t += c
                 m.p += 1
             else:
+                # If the current character is not a white space character, then
+                # the current section of white space has ended, so stop
+                # iterating.
                 break
 
         if len(t) == 0:
+            # If no white space was found, return nothing.
             return None
 
+        # Otherwise, return a string containing the white space.
         return t
 
 
