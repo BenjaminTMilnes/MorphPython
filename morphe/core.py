@@ -247,22 +247,15 @@ class MExporter(object):
     """
     Handles converting Morphe objects into their text representation.
     """
+
     def exportDocument(self, document):
         return "".join([self.exportStyleRule(sr) for sr in document.styleRules])
 
     def exportStyleRule(self, styleRule):
-        ss = "".join([self.exportSelector(s) for s in styleRule.selectors])
+        ss = "".join(["{0}".format(s) for s in styleRule.selectors])
         pp = self.exportProperties(styleRule.properties)
         t = ss + " {\n" + pp + "}\n\n"
         return t
-
-    def exportSelector(self, selector):
-        if isinstance(selector, MElementNameSelector):
-            return selector.elementName
-        if isinstance(selector, MClassSelector):
-            return ".{0}".format( selector.className)
-        if isinstance(selector, MIdSelector):
-            return "#{0}".format( selector.id)
 
     def exportProperties(self, properties, inline=False):
         if inline == True:
@@ -272,12 +265,20 @@ class MExporter(object):
 
 
 def exportMorpheDocument(document):
+    """
+    A helper function that takes a Morphe document and returns its text 
+    representation.
+    """
     exporter = MExporter()
 
     return exporter.exportDocument(document)
 
 
 def exportMorpheProperties(properties, inline=True):
+    """
+    A helper function that takes a list of Morphe properties and returns their
+    text representation.
+    """
     exporter = MExporter()
 
     return exporter.exportProperties(properties, inline)
