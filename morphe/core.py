@@ -230,7 +230,8 @@ class MStyleRule(object):
 
 class MDocument(object):
     """
-    Represents a Morphe document. A Morphe document contains a list of style rules.
+    Represents a Morphe document. A Morphe document contains a list of style 
+    rules.
 
     Attributes
     ----------
@@ -284,7 +285,16 @@ def exportMorpheProperties(properties, inline=True):
     return exporter.exportProperties(properties, inline)
 
 
-class MMarker (object):
+class MMarker(object):
+    """
+    A marker class used in parsing the Morphe syntax.
+
+    Attributes
+    ----------
+    position : int
+        The position of the marker in the input string.
+    """
+
     def __init__(self):
 
         self.position = 0
@@ -306,17 +316,29 @@ class MMarker (object):
 
 
 def cut(text, startIndex, length=1):
+    """
+    A simple function that makes cutting strings a bit nicer.
+    """
     a = startIndex
     b = startIndex + length
     return text[a:b]
 
 
 class MorpheSyntaxError(Exception):
+    """
+    Nice to have a more specific error type for when the Morphe syntax is wrong.
+
+    Parameters
+    ----------
+    message : str
+        A message describing what and where the syntax error is
+    """
+
     def __init__(self, message):
         super(MorpheSyntaxError, self).__init__(message)
 
 
-class MImporter (object):
+class MImporter(object):
     def __init__(self):
 
         self.lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
@@ -612,6 +634,9 @@ class MImporter (object):
         return lengthSet
 
     def _getLength(self, inputText, marker):
+        """
+        Gets a length at the current position and returns it.
+        """
         m = marker.copy()
 
         number = self._getNumber(inputText, m)
@@ -636,6 +661,9 @@ class MImporter (object):
         return length
 
     def _getNumber(self, inputText, marker):
+        """
+        Gets a number at the current position and returns it.
+        """
         m = marker
         t = ""
         q = 0
@@ -664,6 +692,9 @@ class MImporter (object):
         return number
 
     def _getLengthUnit(self, inputText, marker):
+        """
+        Gets a length unit at the current position and returns it.
+        """
         m = marker
 
         for lu in self.lengthUnits:
@@ -679,6 +710,9 @@ class MImporter (object):
         return None
 
     def _getWhiteSpace(self, inputText, marker):
+        """
+        Gets white space at the current position and returns it.
+        """
         m = marker
         t = ""
 
