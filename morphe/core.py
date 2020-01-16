@@ -406,6 +406,8 @@ class MorpheSyntaxError(Exception):
 
 
 class MImporter(object):
+    _allowedPropertyNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
+
     def __init__(self):
 
         self.lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
@@ -563,12 +565,16 @@ class MImporter(object):
         return s
 
     def _getProperties(self, inputText, marker):
+        """
+        Gets a set of properties at the current position and returns it.
+        """
         m = marker.copy()
 
         self._getWhiteSpace(inputText, m)
 
         c = cut(inputText, m.p)
 
+        # A list of properties should start with a recurve bracket.
         if c != "{":
             return None
 
@@ -577,6 +583,8 @@ class MImporter(object):
         properties = []
         wasNone = False
 
+        # Keep trying to find properties at the current position until there
+        # aren't any more.
         while wasNone == False:
             p = self._getProperty(inputText, m)
 
@@ -589,6 +597,7 @@ class MImporter(object):
 
         c = cut(inputText, m.p)
 
+        # Then there should be a closing recurve bracket at the end.
         if c != "}":
             return None
 
@@ -599,11 +608,17 @@ class MImporter(object):
         return properties
 
     def _getProperty(self, inputText, marker):
+        """
+        Gets a property at the current position and returns it.
+        """
         m = marker.copy()
 
         self._getWhiteSpace(inputText, m)
+
+        # First look for a property name.
         name = self._getPropertyName(inputText, m)
 
+        # If there isn't a property name, return nothing.
         if name == None:
             return None
 
@@ -611,18 +626,22 @@ class MImporter(object):
 
         c = cut(inputText, m.p)
 
+        # The property name must be followed by a colon.
         if c != ":":
             return None
 
         m.p += 1
 
+        # Then look for a property value.
         value = self._getPropertyValue(inputText, m)
 
+        # If there isn't a property value, return nothing.
         if value == None:
             return None
 
         c = cut(inputText, m.p)
 
+        # The property value must be followed by a semi-colon.
         if c != ";":
             return None
 
@@ -635,16 +654,23 @@ class MImporter(object):
         return p
 
     def _getPropertyName(self, inputText, marker):
+        """
+        Gets a property name at the current position and returns it.
+        """
         m = marker
         t = ""
 
+        # Iterate over the characters in the input text.
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-":
+            if c in _allowedPropertyNameCharacters:
+                # If the character is an allowed property name character,
+                # add it to the temporary string.
                 t += c
                 m.p += 1
             else:
+                # Otherwise stop iterating.
                 break
 
         if len(t) == 0:
@@ -653,17 +679,27 @@ class MImporter(object):
         return t
 
     def _getPropertyValue(self, inputText, marker):
+        """
+        Gets a property value at the current position and returns it.
+        """
+        # First check if there's a length set at the current position.
+        # If there is one, return it.
         lengthSet = self._getLengthSet(inputText, marker)
 
         if lengthSet != None:
             return lengthSet
 
+        # Otherwise just get the property value as a string.
+
         m = marker
         t = ""
 
+        # Iterate over the characters in the input text
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
+            # Unless it's a character that denotes the end of a property value
+            # add it to the temporary string.
             if c not in ";}{":
                 t += c
                 m.p += 1
@@ -849,12 +885,19 @@ class MImporter(object):
 
 
 def importMorpheDocument(document):
+    """
+    A helper function that takes a Morphe document as a string and returns a 
+    Morphe document object.
+    """
     importer = MImporter()
 
     return importer.importDocument(document)
 
 
 def importMorpheDocumentFromFile(filePath):
+    """
+    A helper function that imports a Morphe document from a file.
+    """
     with open(filePath, "r") as fo:
         data = fo.read()
 
@@ -862,6 +905,10 @@ def importMorpheDocumentFromFile(filePath):
 
 
 def importMorpheProperties(properties):
+    """
+    A helper function that gets a list of style properties from a string. 
+    Useful for importing inline style properties.
+    """
     importer = MImporter()
 
     return importer._getProperties(properties, MMarker())
