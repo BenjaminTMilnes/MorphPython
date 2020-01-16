@@ -407,6 +407,8 @@ class MorpheSyntaxError(Exception):
 
 class MImporter(object):
     _allowedPropertyNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
+    _allowedElementNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
+    _allowedClassNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
 
     def __init__(self):
 
@@ -514,23 +516,31 @@ class MImporter(object):
         return s
 
     def _getClassSelector(self, inputText, marker):
+        """
+        Gets a class selector at the current position and returns it.
+        """
         m = marker.copy()
         t = ""
 
         c = cut(inputText, m.p)
 
+        # Class selectors must start with a dot.
         if c != ".":
             return None
 
         m.p += 1
 
+        # Iterate over the characters in the input text.
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_":
+            if c in _allowedClassNameCharacters:
+                # If the current character is an allowed class name character
+                # add it to the temporary string.
                 t += c
                 m.p += 1
             else:
+                # Otherwise stop iterating.
                 break
 
         if len(t) == 0:
@@ -543,16 +553,23 @@ class MImporter(object):
         return s
 
     def _getElementNameSelector(self, inputText, marker):
+        """
+        Gets an element name selector at the current position and returns it.
+        """
         m = marker.copy()
         t = ""
 
+        # Iterate over the characters in the input text.
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_":
+            if c in _allowedElementNameCharacters:
+                # If the current character is an allowed element name character
+                # add it to the temporary string.
                 t += c
                 m.p += 1
             else:
+                # Otherwise stop iterating.
                 break
 
         if len(t) == 0:
