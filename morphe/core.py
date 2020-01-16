@@ -516,7 +516,7 @@ class MImporter(object):
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in _allowedIdCharacters:
+            if c in self._allowedIdCharacters:
                 # If the current character is an allowed id character
                 # add it to the temporary string.
                 t += c
@@ -553,7 +553,7 @@ class MImporter(object):
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in _allowedClassNameCharacters:
+            if c in self._allowedClassNameCharacters:
                 # If the current character is an allowed class name character
                 # add it to the temporary string.
                 t += c
@@ -582,7 +582,7 @@ class MImporter(object):
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in _allowedElementNameCharacters:
+            if c in self._allowedElementNameCharacters:
                 # If the current character is an allowed element name character
                 # add it to the temporary string.
                 t += c
@@ -700,7 +700,7 @@ class MImporter(object):
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in _allowedPropertyNameCharacters:
+            if c in self._allowedPropertyNameCharacters:
                 # If the character is an allowed property name character,
                 # add it to the temporary string.
                 t += c
@@ -875,7 +875,7 @@ class MImporter(object):
         m = marker
 
         # Iterate over the allowed length units
-        for lu in _lengthUnits:
+        for lu in self._lengthUnits:
             if m.p <= len(inputText) - len(lu):
                 c = cut(inputText, m.p, len(lu))
 
