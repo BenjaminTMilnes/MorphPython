@@ -407,12 +407,12 @@ class MorpheSyntaxError(Exception):
 
 class MImporter(object):
     _allowedPropertyNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
-    _allowedElementNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
+
+    _allowedIdCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
     _allowedClassNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
+    _allowedElementNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
 
-    def __init__(self):
-
-        self.lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
+    _lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
 
     def importDocument(self, inputText):
         marker = MMarker()
@@ -435,11 +435,18 @@ class MImporter(object):
         return d
 
     def _getStyleRule(self, inputText, marker):
+        """
+        Gets a style rule at the current position and returns it.
+        """
         m = marker.copy()
 
+        # First there should be a set of selectors.
         selectors = self._getSelectors(inputText, m)
+        # Then get a set of properties.
         properties = self._getProperties(inputText, m)
 
+        # If either the selectors or the properties are none, then there isn't
+        # a complete style rule at the current position, so return nothing.
         if selectors == None or properties == None:
             return None
 
@@ -453,6 +460,9 @@ class MImporter(object):
         return sr
 
     def _getSelectors(self, inputText, marker):
+        """
+        Gets a set of selectors at the current position and returns it.
+        """
         m = marker.copy()
 
         self._getWhiteSpace(inputText, m)
@@ -460,6 +470,7 @@ class MImporter(object):
         selectors = []
         wasNone = False
 
+        # Keep iterating until there aren't any more selectors.
         while wasNone == False:
 
             s = self._getIdSelector(inputText, m)
@@ -487,23 +498,31 @@ class MImporter(object):
         return selectors
 
     def _getIdSelector(self, inputText, marker):
+        """
+        Gets an id selector at the current position and returns it.
+        """
         m = marker.copy()
         t = ""
 
         c = cut(inputText, m.p)
 
+        # Id selectors must start with a hash.
         if c != "#":
             return None
 
         m.p += 1
 
+        # Iterate over the characters in the input text.
         while m.p < len(inputText):
             c = cut(inputText, m.p)
 
-            if c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_":
+            if c in _allowedIdCharacters:
+                # If the current character is an allowed id character
+                # add it to the temporary string.
                 t += c
                 m.p += 1
             else:
+                # Otherwise stop iterating.
                 break
 
         if len(t) == 0:
@@ -856,7 +875,7 @@ class MImporter(object):
         m = marker
 
         # Iterate over the allowed length units
-        for lu in self.lengthUnits:
+        for lu in _lengthUnits:
             if m.p <= len(inputText) - len(lu):
                 c = cut(inputText, m.p, len(lu))
 
