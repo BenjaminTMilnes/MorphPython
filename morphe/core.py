@@ -502,7 +502,8 @@ class MImporter(object):
         Gets an id selector at the current position and returns it.
         """
         m = marker.copy()
-        t = ""
+        l = len(inputText)
+        start = m.p
 
         c = cut(inputText, m.p)
 
@@ -513,20 +514,23 @@ class MImporter(object):
         m.p += 1
 
         # Iterate over the characters in the input text.
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             if c in self._allowedIdCharacters:
                 # If the current character is an allowed id character
-                # add it to the temporary string.
-                t += c
+                # move the marker along by 1.
                 m.p += 1
             else:
                 # Otherwise stop iterating.
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end - start < 2:
             return None
+
+        t = inputText[start + 1:end]
 
         marker.p = m.p
 
@@ -539,7 +543,8 @@ class MImporter(object):
         Gets a class selector at the current position and returns it.
         """
         m = marker.copy()
-        t = ""
+        l = len(inputText)
+        start = m.p
 
         c = cut(inputText, m.p)
 
@@ -550,20 +555,23 @@ class MImporter(object):
         m.p += 1
 
         # Iterate over the characters in the input text.
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             if c in self._allowedClassNameCharacters:
                 # If the current character is an allowed class name character
-                # add it to the temporary string.
-                t += c
+                # move the marker along by 1.
                 m.p += 1
             else:
                 # Otherwise stop iterating.
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end - start < 2:
             return None
+
+        t = inputText[start + 1:end]
 
         marker.p = m.p
 
@@ -576,23 +584,27 @@ class MImporter(object):
         Gets an element name selector at the current position and returns it.
         """
         m = marker.copy()
-        t = ""
+        l = len(inputText)
+        start = m.p
 
         # Iterate over the characters in the input text.
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             if c in self._allowedElementNameCharacters:
                 # If the current character is an allowed element name character
-                # add it to the temporary string.
-                t += c
+                # move the marker along by 1.
                 m.p += 1
             else:
                 # Otherwise stop iterating.
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end == start:
             return None
+
+        t = inputText[start:end]
 
         marker.p = m.p
 
@@ -617,17 +629,16 @@ class MImporter(object):
         m.p += 1
 
         properties = []
-        wasNone = False
 
         # Keep trying to find properties at the current position until there
         # aren't any more.
-        while wasNone == False:
+        while True:
             p = self._getProperty(inputText, m)
 
-            if p == None:
-                wasNone = True
-            else:
+            if p != None:
                 properties.append(p)
+            else:
+                break
 
         self._getWhiteSpace(inputText, m)
 

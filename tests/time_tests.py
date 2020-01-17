@@ -3,7 +3,7 @@ from morphe.core import *
 
 import timeit
 
-n = 1000
+n = 10000
 
 t = timeit.timeit(lambda: importMorpheDocumentFromFile("examples/example1.morphe"), number=n)
 
