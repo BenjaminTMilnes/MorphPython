@@ -405,13 +405,13 @@ class MorpheSyntaxError(Exception):
         super(MorpheSyntaxError, self).__init__(message)
 
 
+def isAlphanumeric(c):
+    n = ord(c)
+
+    return (n >= 48 and n < 58) or (n >= 65 and n < 91) or (n >= 97 and n < 123)
+
+
 class MImporter(object):
-    _allowedPropertyNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
-
-    _allowedIdCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
-    _allowedClassNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
-    _allowedElementNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
-
     _lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
 
     def importDocument(self, inputText):
@@ -515,7 +515,7 @@ class MImporter(object):
         while m.p < l:
             c = cut(inputText, m.p)
 
-            if c in self._allowedIdCharacters:
+            if isAlphanumeric(c) or c in "-_":
                 # If the current character is an allowed id character
                 # move the marker along by 1.
                 m.p += 1
@@ -556,7 +556,7 @@ class MImporter(object):
         while m.p < l:
             c = cut(inputText, m.p)
 
-            if c in self._allowedClassNameCharacters:
+            if isAlphanumeric(c) or c in "-_":
                 # If the current character is an allowed class name character
                 # move the marker along by 1.
                 m.p += 1
@@ -589,7 +589,7 @@ class MImporter(object):
         while m.p < l:
             c = cut(inputText, m.p)
 
-            if c in self._allowedElementNameCharacters:
+            if isAlphanumeric(c) or c in "-_":
                 # If the current character is an allowed element name character
                 # move the marker along by 1.
                 m.p += 1
@@ -710,7 +710,7 @@ class MImporter(object):
         while m.p < l:
             c = cut(inputText, m.p)
 
-            if c in self._allowedPropertyNameCharacters:
+            if isAlphanumeric(c) or c == "-":
                 # If the character is an allowed property name character,
                 # move the marker along by 1.
                 m.p += 1
