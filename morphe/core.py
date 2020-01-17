@@ -895,16 +895,16 @@ class MImporter(object):
         Gets white space at the current position and returns it.
         """
         m = marker
-        t = ""
+        l = len(inputText)
+        start = m.p
 
         # Iterate over the characters in the input text
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             if c in " \t\n":
-                # If the current character is a white space character, then add
-                # it to a temporary string, and move the marker along by 1.
-                t += c
+                # If the current character is a white space character, move
+                # the marker along and keep iterating.
                 m.p += 1
             else:
                 # If the current character is not a white space character, then
@@ -912,9 +912,13 @@ class MImporter(object):
                 # iterating.
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end == start:
             # If no white space was found, return nothing.
             return None
+
+        t = inputText[start:end]
 
         # Otherwise, return a string containing the white space.
         return t
