@@ -694,23 +694,27 @@ class MImporter(object):
         Gets a property name at the current position and returns it.
         """
         m = marker
-        t = ""
+        l = len(inputText)
+        start = m.p
 
         # Iterate over the characters in the input text.
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             if c in self._allowedPropertyNameCharacters:
                 # If the character is an allowed property name character,
-                # add it to the temporary string.
-                t += c
+                # move the marker along by 1.
                 m.p += 1
             else:
                 # Otherwise stop iterating.
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end == start:
             return None
+
+        t = inputText[start:end]
 
         return t
 
