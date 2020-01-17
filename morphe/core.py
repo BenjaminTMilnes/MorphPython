@@ -411,6 +411,16 @@ def isAlphanumeric(c):
     return (n >= 48 and n < 58) or (n >= 65 and n < 91) or (n >= 97 and n < 123)
 
 
+def isDigit(c):
+    n = ord(c)
+
+    return (n >= 48 and n < 58)
+
+def isHexadecimalDigit(c):
+    n = ord(c)
+
+    return (n >= 48 and n < 58) or (n >= 65 and n < 71) or (n >= 97 and n < 103)
+
 class MImporter(object):
     _lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
 
@@ -764,6 +774,71 @@ class MImporter(object):
 
         return t.strip()
 
+    def _getRGBAColour(self, inputText, marker):
+        m = marker.copy()
+
+        hn = self._getHexadecimalNumber(inputText, m)
+
+        if hn != None:
+
+            if len(hn) != 6 and len(hn) != 8:
+                raise MorpheSyntaxError("'#{0}' is not a valid hexadecimal colour code.".format(hn))
+
+            r = int( hn[0:2], 16)
+            g = int( hn[2:4], 16)
+            b = int( hn[4:6], 16)   
+
+            if len(hn) == 8:
+                a = int( hn[6:8], 16)  
+
+                colour = MRGBAColour(r, g, b, a)
+
+                return colour
+            else:
+                colour = MRGBColour(r, g, b)
+
+                return colour
+
+        c = cut(inputText, m.p, 5)
+
+        if c == "rgba(":
+            pass
+
+
+
+
+    def _getHexadecimalNumber(self, inputText, marker):
+        m = marker.copy()
+        l = len(inputText)
+        start = m.p
+
+        c = cut(inputText, m.p)
+
+        if c != "#":
+            return None
+
+        m.p += 1
+
+        while m.p < l:
+            c = cut(inputText, m.p)
+
+            if isHexadecimalDigit(c):
+                m.p += 1
+            else:
+                break
+
+        end = m.p
+
+        if end - start < 2:
+            return None
+
+        t = inputText[start + 1:end]
+
+        marker.p = m.p
+
+        return t
+
+
     def _getLengthSet(self, inputText, marker):
         """
         Gets a length set at the current position and returns it.
@@ -853,7 +928,7 @@ class MImporter(object):
         while m.p < l:
             c = cut(inputText, m.p)
 
-            if c in "0123456789":
+            if isDigit(c):
                 # If the current character is a digit, then it is part of a
                 # number, so move the marker along by 1.
                 m.p += 1

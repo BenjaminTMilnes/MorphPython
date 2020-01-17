@@ -77,6 +77,65 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(len(ls.lengths), len(a))
 
     @parameterized.expand([
+        ["123"],
+        ["123abc"],
+        ["abcdef"],
+        ["ffffff"],
+        ["f0f0f0"],
+        ["d4d4d4"],
+        ["123ABC"],
+        ["ABCDEF"],
+        ["FFFFFF"],
+        ["F0F0F0"],
+        ["D4D4D4"],
+    ])
+    def test_import_hexadecimal_number(self, n):
+
+        importer = MImporter()
+
+        hn = importer._getHexadecimalNumber("#" + n, MMarker())
+
+        self.assertEqual(hn, n)
+
+    @parameterized.expand([
+        ["#00000000", 0, 0, 0, 0],
+        ["#04050607", 4, 5, 6, 7],
+        ["#10101010", 16, 16, 16, 16],
+        ["#20304050", 32, 48, 64, 80],
+        ["#ffffffff", 255, 255, 255, 255],
+        ["#FFFFFFFF", 255, 255, 255, 255],
+    ])
+    def test_import_rgbacolour(self, t, r, g, b, a):
+
+        importer = MImporter()
+
+        c = importer._getRGBAColour(t, MMarker())
+
+        self.assertEqual(c.r, r)
+        self.assertEqual(c.g, g)
+        self.assertEqual(c.b, b)
+        self.assertEqual(c.a, a)
+
+    @parameterized.expand([
+        ["#000000", 0, 0, 0],
+        ["#040506", 4, 5, 6],
+        ["#101010", 16, 16, 16],
+        ["#203040", 32, 48, 64],
+        ["#ffffff", 255, 255, 255],
+        ["#FFFFFF", 255, 255, 255],
+    ])
+    def test_import_rgbcolour(self, t, r, g, b):
+
+        importer = MImporter()
+
+        c = importer._getRGBAColour(t, MMarker())
+
+        self.assertEqual(c.r, r)
+        self.assertEqual(c.g, g)
+        self.assertEqual(c.b, b)
+        self.assertEqual(c.a, 0)
+
+    @parameterized.expand([
         ["page-size: a4;", "page-size", "a4"],
         ["page-margin: 2cm 2cm 2cm 2cm;", "page-margin", "2cm 2cm 2cm 2cm"],
         ["font-name: 'Open Sans', sans-serif;", "font-name", "'Open Sans', sans-serif"],
