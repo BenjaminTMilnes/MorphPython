@@ -873,17 +873,20 @@ class MImporter(object):
         Gets a length unit at the current position and returns it.
         """
         m = marker
+        l =  len(inputText)
 
         # Iterate over the allowed length units
         for lu in self._lengthUnits:
-            if m.p <= len(inputText) - len(lu):
-                c = cut(inputText, m.p, len(lu))
+            lul =  len(lu)
+
+            if m.p <= l - lul:
+                c = cut(inputText, m.p, lul)
 
                 if c == lu:
                     # If any of the length unit symbols is at the current
                     # position, then return it.
                     lengthUnit = MLengthUnit(c)
-                    m.p += len(c)
+                    m.p += lul
 
                     return lengthUnit
 
