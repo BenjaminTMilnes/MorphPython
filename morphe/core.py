@@ -418,15 +418,14 @@ class MImporter(object):
         marker = MMarker()
 
         styleRules = []
-        wasNone = False
 
-        while wasNone == False:
+        while True:
             sr = self._getStyleRule(inputText, marker)
 
-            if sr == None:
-                break
-            else:
+            if sr != None:
                 styleRules.append(sr)
+            else:
+                break
 
         d = MDocument()
 
@@ -468,10 +467,9 @@ class MImporter(object):
         self._getWhiteSpace(inputText, m)
 
         selectors = []
-        wasNone = False
 
         # Keep iterating until there aren't any more selectors.
-        while wasNone == False:
+        while True:
 
             s = self._getIdSelector(inputText, m)
 
@@ -491,7 +489,7 @@ class MImporter(object):
                 selectors.append(s)
                 continue
 
-            wasNone = True
+            break
 
         marker.p = m.p
 
