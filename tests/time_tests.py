@@ -5,6 +5,12 @@ import timeit
 
 n = 10000
 
+i = MImporter()
+
+t = timeit.timeit(lambda: i._getNumber("1.23456789", MMarker()), number=n)
+
+print(t/n)
+
 t = timeit.timeit(lambda: importMorpheDocumentFromFile("examples/example1.morphe"), number=n)
 
 print(t/n)
