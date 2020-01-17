@@ -728,22 +728,26 @@ class MImporter(object):
         # Otherwise just get the property value as a string.
 
         m = marker
-        t = ""
+        l = len(inputText)
+        start = m.p
 
         # Iterate over the characters in the input text
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             # Unless it's a character that denotes the end of a property value
-            # add it to the temporary string.
+            # move the marker along by 1.
             if c not in ";}{":
-                t += c
                 m.p += 1
             else:
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end == start:
             return None
+
+        t = inputText[start:end]
 
         return t.strip()
 
@@ -771,7 +775,7 @@ class MImporter(object):
                 # iterating.
                 break
 
-        if len(lengths) == 0:
+        if not lengths:
             # If no lengths were found, return nothing.
             return None
 
@@ -826,26 +830,23 @@ class MImporter(object):
         Gets a number at the current position and returns it.
         """
         m = marker
-        t = ""
+        l = len(inputText)
+        start = m.p
         # q is the number of decimal points that have been seen.
         # Only one decimal point is allowed in a number.
         q = 0
 
         # Iterate over the characters in the input text.
-        while m.p < len(inputText):
+        while m.p < l:
             c = cut(inputText, m.p)
 
             if c in "0123456789":
                 # If the current character is a digit, then it is part of a
-                # number, so add it to a temporary string, and move the marker
-                # along by 1.
-                t += c
+                # number, so move the marker along by 1.
                 m.p += 1
             elif c == ".":
-                # If the current character is a decimal point, then add it to
-                # the temporary string, move the marker along by 1, and
-                # increase the decimal point counter by 1.
-                t += c
+                # If the current character is a decimal point, then move the
+                # marker along by 1, and increase the decimal point counter by 1.
                 q += 1
                 m.p += 1
             else:
@@ -853,9 +854,13 @@ class MImporter(object):
                 # of the current number, so stop iterating.
                 break
 
-        if len(t) == 0:
+        end = m.p
+
+        if end == start:
             # If no digits were found, return nothing.
             return None
+
+        t = inputText[start:end]
 
         if t == "." or q > 1:
             # If all that was found was a single decimal point, or if there
@@ -873,11 +878,11 @@ class MImporter(object):
         Gets a length unit at the current position and returns it.
         """
         m = marker
-        l =  len(inputText)
+        l = len(inputText)
 
         # Iterate over the allowed length units
         for lu in self._lengthUnits:
-            lul =  len(lu)
+            lul = len(lu)
 
             if m.p <= l - lul:
                 c = cut(inputText, m.p, lul)
