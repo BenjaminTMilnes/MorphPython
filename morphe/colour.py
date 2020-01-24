@@ -21,10 +21,7 @@ class MRGBAColour(MColour):
         self.a = a
 
     def __str__(self):
-        return "#{0}{1}{2}{3}".format(format(self.r, "02X"),
-                                      format(self.g, "02X"),
-                                      format(self.b, "02X"),
-                                      format(self.a, "02X"))
+        return "#{:02X}{:02X}{:02X}{:02X}".format(self.r, self.g, self.b, self.a)
 
 
 class MRGBColour(MRGBAColour):
@@ -36,9 +33,7 @@ class MRGBColour(MRGBAColour):
         super(MRGBColour, self).__init__(r, g, b)
 
     def __str__(self):
-        return "#{0}{1}{2}{3}".format(format(self.r, "02X"),
-                                      format(self.g, "02X"),
-                                      format(self.b, "02X"))
+        return "#{:02X}{:02X}{:02X}".format(self.r, self.g, self.b)
 
 
 class MHSLAColour(MColour):
@@ -54,6 +49,8 @@ class MHSLAColour(MColour):
         self.l = l
         self.a = a
 
+    def __str__(self):
+        return "hsla({0}, {1}, {2}, {3})".format(self.h, self.s, self.l, self.a)
 
 class MHSLColour(MHSLAColour):
     """
@@ -62,6 +59,9 @@ class MHSLColour(MHSLAColour):
 
     def __init__(self, h=0, s=0, l=0):
         super(MHSLColour, self).__init__(h, s, l)
+
+    def __str__(self):
+        return "hsl({0}, {1}, {2})".format(self.h, self.s, self.l)
 
 
 class MCMYKColour(MColour):
@@ -76,3 +76,6 @@ class MCMYKColour(MColour):
         self.m = m
         self.y = y
         self.k = k
+
+    def __str__(self):
+        return "cmyk({0}, {1}, {2}, {3})".format(self.c, self.m, self.y, self.k)
