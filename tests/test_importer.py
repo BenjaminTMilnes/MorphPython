@@ -105,7 +105,7 @@ class TestImporter(unittest.TestCase):
         ["#ffffffff", 255, 255, 255, 255],
         ["#FFFFFFFF", 255, 255, 255, 255],
     ])
-    def test_import_rgbacolour(self, t, r, g, b, a):
+    def test_import_hex_rgbacolour(self, t, r, g, b, a):
 
         importer = MImporter()
 
@@ -124,7 +124,7 @@ class TestImporter(unittest.TestCase):
         ["#ffffff", 255, 255, 255],
         ["#FFFFFF", 255, 255, 255],
     ])
-    def test_import_rgbcolour(self, t, r, g, b):
+    def test_import_hex_rgbcolour(self, t, r, g, b):
 
         importer = MImporter()
 
@@ -134,6 +134,41 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(c.g, g)
         self.assertEqual(c.b, b)
         self.assertEqual(c.a, 0)
+
+    @parameterized.expand([
+        ["rgba(0, 0, 0, 0%)", 0, 0, 0, 0],
+        ["rgba(100, 0, 0, 0%)", 100, 0, 0, 0],
+        ["rgba(100, 120, 200, 0%)", 100, 120, 200, 0],
+        ["rgba(100, 120, 200, 50%)", 100, 120, 200, 50],
+        ["rgba(255, 255, 255, 100%)", 255, 255, 255, 100],
+    ])
+    def test_import_rgbacolour(self, t, r, g, b, a):
+
+        importer = MImporter()
+
+        c = importer._getRGBAColour(t, MMarker())
+
+        self.assertEqual(int(c.r.value), r)
+        self.assertEqual(int(c.g.value), g)
+        self.assertEqual(int(c.b.value), b)
+        self.assertEqual(c.a.value, a / 100)
+
+    @parameterized.expand([
+        ["rgb(0, 0, 0)", 0, 0, 0],
+        ["rgb(100, 0, 0)", 100, 0, 0],
+        ["rgb(100, 120, 200)", 100, 120, 200],
+        ["rgb(100, 120, 200)", 100, 120, 200],
+        ["rgb(255, 255, 255)", 255, 255, 255],
+    ])
+    def test_import_rgbcolour(self, t, r, g, b):
+
+        importer = MImporter()
+
+        c = importer._getRGBAColour(t, MMarker())
+
+        self.assertEqual(int(c.r.value), r)
+        self.assertEqual(int(c.g.value), g)
+        self.assertEqual(int(c.b.value), b)
 
     @parameterized.expand([
         ["page-size: a4;", "page-size", "a4"],

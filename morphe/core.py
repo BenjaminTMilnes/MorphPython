@@ -1,3 +1,4 @@
+import math
 
 
 class MProperty(object):
@@ -53,6 +54,12 @@ class MNumber(object):
     def __str__(self):
         return self.value.strip()
 
+class MPercentage(object):
+    def __init__(self, value ):
+        self.value = value
+
+    def __str__(self):
+        return "{0}%".format(self.value * 100)
 
 class MLengthUnit(object):
     """
@@ -755,7 +762,7 @@ class MImporter(object):
 
         if colour != None:
             return colour
-            
+
         # Otherwise just get the property value as a string.
 
         m = marker
@@ -804,12 +811,68 @@ class MImporter(object):
 
                 return colour
 
+        c = cut(inputText, m.p, 4)
+
+        if c == "rgba":
+            m.p += 4
+
+            s = self._getNumberSet(inputText, m)
+
+            if s == None:
+                return None
+            
+            if len(s) != 4:
+                raise MorpheSyntaxError("An RGBA colour must have four values.")
+
+            r = s[0]
+            g = s[1]
+            b = s[2]
+            a = s[3]   
+
+            self._validateRGBAColourValue(r)
+            self._validateRGBAColourValue(g)
+            self._validateRGBAColourValue(b)
+            self._validateRGBAColourValue(a)
+
+            return MRGBAColour(r, g, b, a)
+
+        c = cut(inputText, m.p, 3)
+
+        if c == "rgb":
+            m.p += 3
+
+            s = self._getNumberSet(inputText, m)
+
+            if s == None:
+                return None
+            
+            if len(s) != 3:
+                raise MorpheSyntaxError("An RGB colour must have three values.")
+
+            r = s[0]
+            g = s[1]
+            b = s[2] 
+
+            self._validateRGBAColourValue(r)
+            self._validateRGBAColourValue(g)
+            self._validateRGBAColourValue(b)
+
+            return MRGBColour(r, g, b)
+
         return None
 
-        c = cut(inputText, m.p, 5)
+    def _validateRGBAColourValue(self, value):
+    
+        if isinstance(value, MNumber):
+            v = int(value.value)
 
-        if c == "rgba(":
-            pass
+            if v < 0 or v > 255:
+                raise MorpheSyntaxError("RGBA colour values must be between 0 and 255.")
+        elif isinstance(value, MPercentage):
+            v = value.value * 100
+
+            if v < 0 or v > 100:
+                raise MorpheSyntaxError("RGBA colour values must be between 0%% and 100%%.")
 
     def _getHexadecimalNumber(self, inputText, marker):
         m = marker.copy()
@@ -838,6 +901,68 @@ class MImporter(object):
         marker.p = m.p
 
         return t
+
+    def _getNumberSet(self, inputText, marker):
+        m = marker.copy()
+
+        c = cut(inputText, m.p)
+
+        if c != "(":
+            return None
+
+        m.p += 1
+
+        numbers = []
+
+        while True:
+
+            self._getWhiteSpace(inputText, m)
+
+            p = self._getPercentage(inputText, m)
+
+            if p != None:
+                numbers.append(p)
+            else:
+                n = self._getNumber(inputText, m)
+
+                if n != None:
+                    numbers.append(n)
+            
+            self._getWhiteSpace(inputText, m)
+            
+            c = cut(inputText, m.p)
+
+            if c == ",":
+                m.p += 1
+                continue
+            elif c == ")":
+                m.p += 1
+                break
+            else:
+                raise MorpheSyntaxError("Expected a comma or a closing bracket.")
+
+        return numbers
+
+    def _getPercentage(self, inputText, marker):
+        m = marker.copy()
+
+        number = self._getNumber(inputText, m)
+
+        if number == None:
+            return None
+
+        c = cut(inputText, m.p)
+
+        if c != "%":
+            return None
+
+        m.p += 1
+
+        marker.p = m.p
+
+        p = MPercentage(float(number.value) / 100)
+
+        return p
 
     def _getLengthSet(self, inputText, marker):
         """
