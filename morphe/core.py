@@ -156,6 +156,12 @@ class MRGBAColour(MColour):
         self.b = b
         self.a = a
 
+    def __str__(self):
+        return "#{0}{1}{2}{3}".format(format(self.r, "02X"),
+                                    format(self.g, "02X"),
+                                    format(self.b, "02X"),
+                                    format(self.a, "02X"))
+
 
 class MRGBColour(MRGBAColour):
     """
@@ -164,6 +170,11 @@ class MRGBColour(MRGBAColour):
 
     def __init__(self, r=0, g=0, b=0):
         super(MRGBColour, self).__init__(r, g, b)
+
+    def __str__(self):
+        return "#{0}{1}{2}{3}".format(format(self.r, "02X"),
+                                    format(self.g, "02X"),
+                                    format(self.b, "02X"))
 
 
 class MHSLAColour(MColour):
@@ -738,6 +749,13 @@ class MImporter(object):
         if lengthSet != None:
             return lengthSet
 
+        # Now check if there's an rgba colour at the current position.
+        # If there is one, return it.
+        colour = self._getRGBAColour(inputText, marker)
+
+        if colour != None:
+            return colour
+            
         # Otherwise just get the property value as a string.
 
         m = marker

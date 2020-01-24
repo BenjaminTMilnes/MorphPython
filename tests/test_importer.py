@@ -140,6 +140,8 @@ class TestImporter(unittest.TestCase):
         ["page-margin: 2cm 2cm 2cm 2cm;", "page-margin", "2cm 2cm 2cm 2cm"],
         ["font-name: 'Open Sans', sans-serif;", "font-name", "'Open Sans', sans-serif"],
         ["font-colour: hsl(350, 60%, 60%);", "font-colour", "hsl(350, 60%, 60%)"],
+        ["font-colour: #dd0000;", "font-colour", "#dd0000"],
+        ["font-colour: #dd000088;", "font-colour", "#dd000088"],
     ])
     def test_import_property(self, text, name, value):
 
