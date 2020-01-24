@@ -54,12 +54,14 @@ class MNumber(object):
     def __str__(self):
         return self.value.strip()
 
+
 class MPercentage(object):
-    def __init__(self, value ):
+    def __init__(self, value):
         self.value = value
 
     def __str__(self):
         return "{0}%".format(self.value * 100)
+
 
 class MLengthUnit(object):
     """
@@ -165,9 +167,9 @@ class MRGBAColour(MColour):
 
     def __str__(self):
         return "#{0}{1}{2}{3}".format(format(self.r, "02X"),
-                                    format(self.g, "02X"),
-                                    format(self.b, "02X"),
-                                    format(self.a, "02X"))
+                                      format(self.g, "02X"),
+                                      format(self.b, "02X"),
+                                      format(self.a, "02X"))
 
 
 class MRGBColour(MRGBAColour):
@@ -180,8 +182,8 @@ class MRGBColour(MRGBAColour):
 
     def __str__(self):
         return "#{0}{1}{2}{3}".format(format(self.r, "02X"),
-                                    format(self.g, "02X"),
-                                    format(self.b, "02X"))
+                                      format(self.g, "02X"),
+                                      format(self.b, "02X"))
 
 
 class MHSLAColour(MColour):
@@ -763,6 +765,13 @@ class MImporter(object):
         if colour != None:
             return colour
 
+        # Now check if there's a hsla colour at the current position.
+        # If there is one, return it.
+        colour = self._getHSLAColour(inputText, marker)
+
+        if colour != None:
+            return colour
+
         # Otherwise just get the property value as a string.
 
         m = marker
@@ -785,6 +794,50 @@ class MImporter(object):
         t = inputText[start:end]
 
         return t.strip()
+
+    def _getHSLAColour(self, inputText, marker):
+        m = marker.copy()
+
+        c = cut(inputText, m.p, 4)
+
+        if c == "hsla":
+            m.p += 4
+
+            ns = self._getNumberSet(inputText, m)
+
+            if ns == None:
+                return None
+
+            if len(ns) != 4:
+                raise MorpheSyntaxError("A HSLA colour must have four values.")
+
+            h = ns[0]
+            s = ns[1]
+            l = ns[2]
+            a = ns[3]
+
+            return MHSLAColour(h, s, l, a)
+
+        c = cut(inputText, m.p, 3)
+
+        if c == "hsl":
+            m.p += 3
+
+            ns = self._getNumberSet(inputText, m)
+
+            if ns == None:
+                return None
+
+            if len(ns) != 3:
+                raise MorpheSyntaxError("A HSL colour must have three values.")
+
+            h = ns[0]
+            s = ns[1]
+            l = ns[2]
+
+            return MHSLColour(h, s, l)
+
+        return None
 
     def _getRGBAColour(self, inputText, marker):
         m = marker.copy()
@@ -820,14 +873,14 @@ class MImporter(object):
 
             if s == None:
                 return None
-            
+
             if len(s) != 4:
                 raise MorpheSyntaxError("An RGBA colour must have four values.")
 
             r = s[0]
             g = s[1]
             b = s[2]
-            a = s[3]   
+            a = s[3]
 
             self._validateRGBAColourValue(r)
             self._validateRGBAColourValue(g)
@@ -845,13 +898,13 @@ class MImporter(object):
 
             if s == None:
                 return None
-            
+
             if len(s) != 3:
                 raise MorpheSyntaxError("An RGB colour must have three values.")
 
             r = s[0]
             g = s[1]
-            b = s[2] 
+            b = s[2]
 
             self._validateRGBAColourValue(r)
             self._validateRGBAColourValue(g)
@@ -862,7 +915,7 @@ class MImporter(object):
         return None
 
     def _validateRGBAColourValue(self, value):
-    
+
         if isinstance(value, MNumber):
             v = int(value.value)
 
@@ -927,9 +980,9 @@ class MImporter(object):
 
                 if n != None:
                     numbers.append(n)
-            
+
             self._getWhiteSpace(inputText, m)
-            
+
             c = cut(inputText, m.p)
 
             if c == ",":

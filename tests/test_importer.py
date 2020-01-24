@@ -171,6 +171,24 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(int(c.b.value), b)
 
     @parameterized.expand([
+        ["hsla(0, 0%, 0%, 0%)", 0, 0, 0, 0],
+        ["hsla(60, 100%, 100%, 0%)", 60, 100, 100, 0],
+        ["hsla(220, 100%, 100%, 0%)", 220, 100, 100, 0],
+        ["hsla(359, 100%, 100%, 0%)", 359, 100, 100, 0],
+        ["hsla(120, 50%, 50%, 50%)", 120, 50, 50, 50],
+    ])
+    def test_import_hslacolour(self, t, h, s, l, a):
+
+        importer = MImporter()
+
+        c = importer._getHSLAColour(t, MMarker())
+
+        self.assertEqual(int(c.h.value), h)
+        self.assertEqual(c.s.value, s / 100)
+        self.assertEqual(c.l.value, l / 100)
+        self.assertEqual(c.a.value, a / 100)
+
+    @parameterized.expand([
         ["page-size: a4;", "page-size", "a4"],
         ["page-margin: 2cm 2cm 2cm 2cm;", "page-margin", "2cm 2cm 2cm 2cm"],
         ["font-name: 'Open Sans', sans-serif;", "font-name", "'Open Sans', sans-serif"],
