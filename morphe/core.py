@@ -416,10 +416,12 @@ def isDigit(c):
 
     return (n >= 48 and n < 58)
 
+
 def isHexadecimalDigit(c):
     n = ord(c)
 
     return (n >= 48 and n < 58) or (n >= 65 and n < 71) or (n >= 97 and n < 103)
+
 
 class MImporter(object):
     _lengthUnits = ["mm", "cm", "dm", "m", "pt", "in", "pc"]
@@ -510,7 +512,6 @@ class MImporter(object):
         Gets an id selector at the current position and returns it.
         """
         m = marker.copy()
-        l = len(inputText)
         start = m.p
 
         c = cut(inputText, m.p)
@@ -522,9 +523,7 @@ class MImporter(object):
         m.p += 1
 
         # Iterate over the characters in the input text.
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start + 1:]:
             if isAlphanumeric(c) or c in "-_":
                 # If the current character is an allowed id character
                 # move the marker along by 1.
@@ -551,7 +550,6 @@ class MImporter(object):
         Gets a class selector at the current position and returns it.
         """
         m = marker.copy()
-        l = len(inputText)
         start = m.p
 
         c = cut(inputText, m.p)
@@ -563,9 +561,7 @@ class MImporter(object):
         m.p += 1
 
         # Iterate over the characters in the input text.
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start + 1:]:
             if isAlphanumeric(c) or c in "-_":
                 # If the current character is an allowed class name character
                 # move the marker along by 1.
@@ -592,13 +588,10 @@ class MImporter(object):
         Gets an element name selector at the current position and returns it.
         """
         m = marker.copy()
-        l = len(inputText)
         start = m.p
 
         # Iterate over the characters in the input text.
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start:]:
             if isAlphanumeric(c) or c in "-_":
                 # If the current character is an allowed element name character
                 # move the marker along by 1.
@@ -713,13 +706,10 @@ class MImporter(object):
         Gets a property name at the current position and returns it.
         """
         m = marker
-        l = len(inputText)
         start = m.p
 
         # Iterate over the characters in the input text.
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start:]:
             if isAlphanumeric(c) or c == "-":
                 # If the character is an allowed property name character,
                 # move the marker along by 1.
@@ -751,13 +741,10 @@ class MImporter(object):
         # Otherwise just get the property value as a string.
 
         m = marker
-        l = len(inputText)
         start = m.p
 
         # Iterate over the characters in the input text
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start:]:
             # Unless it's a character that denotes the end of a property value
             # move the marker along by 1.
             if c not in ";}{":
@@ -784,12 +771,12 @@ class MImporter(object):
             if len(hn) != 6 and len(hn) != 8:
                 raise MorpheSyntaxError("'#{0}' is not a valid hexadecimal colour code.".format(hn))
 
-            r = int( hn[0:2], 16)
-            g = int( hn[2:4], 16)
-            b = int( hn[4:6], 16)   
+            r = int(hn[0:2], 16)
+            g = int(hn[2:4], 16)
+            b = int(hn[4:6], 16)
 
             if len(hn) == 8:
-                a = int( hn[6:8], 16)  
+                a = int(hn[6:8], 16)
 
                 colour = MRGBAColour(r, g, b, a)
 
@@ -799,17 +786,15 @@ class MImporter(object):
 
                 return colour
 
+        return None
+
         c = cut(inputText, m.p, 5)
 
         if c == "rgba(":
             pass
 
-
-
-
     def _getHexadecimalNumber(self, inputText, marker):
         m = marker.copy()
-        l = len(inputText)
         start = m.p
 
         c = cut(inputText, m.p)
@@ -819,9 +804,7 @@ class MImporter(object):
 
         m.p += 1
 
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[m.p:]:
             if isHexadecimalDigit(c):
                 m.p += 1
             else:
@@ -837,7 +820,6 @@ class MImporter(object):
         marker.p = m.p
 
         return t
-
 
     def _getLengthSet(self, inputText, marker):
         """
@@ -918,16 +900,13 @@ class MImporter(object):
         Gets a number at the current position and returns it.
         """
         m = marker
-        l = len(inputText)
         start = m.p
         # q is the number of decimal points that have been seen.
         # Only one decimal point is allowed in a number.
         q = 0
 
         # Iterate over the characters in the input text.
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start:]:
             if isDigit(c):
                 # If the current character is a digit, then it is part of a
                 # number, so move the marker along by 1.
@@ -991,13 +970,10 @@ class MImporter(object):
         Gets white space at the current position and returns it.
         """
         m = marker
-        l = len(inputText)
         start = m.p
 
         # Iterate over the characters in the input text
-        while m.p < l:
-            c = cut(inputText, m.p)
-
+        for c in inputText[start:]:
             if c in " \t\n":
                 # If the current character is a white space character, move
                 # the marker along and keep iterating.
