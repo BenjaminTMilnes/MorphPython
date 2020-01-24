@@ -52,6 +52,7 @@ class MHSLAColour(MColour):
     def __str__(self):
         return "hsla({0}, {1}, {2}, {3})".format(self.h, self.s, self.l, self.a)
 
+
 class MHSLColour(MHSLAColour):
     """
     Represents a HSL colour.
