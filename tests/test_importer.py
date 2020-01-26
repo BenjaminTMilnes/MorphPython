@@ -189,12 +189,30 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(c.a.value, a / 100)
 
     @parameterized.expand([
+        ["black", 0, 0, 0, 0],
+        ["red", 255, 0, 0, 0],
+        ["blue", 0, 0, 255, 0],
+        ["white", 255, 255, 255, 0],
+    ])
+    def test_import_named_colour(self, t, r, g, b, a):
+
+        importer = MImporter()
+
+        c = importer._getPropertyValue(t, MMarker())
+        
+        self.assertEqual(c.rgbaColour.r, r)
+        self.assertEqual(c.rgbaColour.g, g)
+        self.assertEqual(c.rgbaColour.b, b)
+        self.assertEqual(c.rgbaColour.a, a)
+
+    @parameterized.expand([
         ["page-size: a4;", "page-size", "a4"],
         ["page-margin: 2cm 2cm 2cm 2cm;", "page-margin", "2cm 2cm 2cm 2cm"],
         ["font-name: 'Open Sans', sans-serif;", "font-name", "'Open Sans', sans-serif"],
         ["font-colour: hsl(350, 60%, 60%);", "font-colour", "hsl(350, 60%, 60%)"],
         ["font-colour: #dd0000;", "font-colour", "#dd0000"],
         ["font-colour: #dd000088;", "font-colour", "#dd000088"],
+        ["font-colour: black;", "font-colour", "black"],
     ])
     def test_import_property(self, text, name, value):
 

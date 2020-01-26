@@ -715,8 +715,12 @@ class MImporter(object):
             return None
 
         t = inputText[start:end]
+        t = t.strip()
 
-        return t.strip()
+        if t in namedColours:
+            return namedColours[t]
+
+        return t
 
     def _getHSLAColour(self, inputText, marker):
         m = marker.copy()
