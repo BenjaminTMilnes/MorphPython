@@ -2,174 +2,177 @@
 
 Pink colors	
 
-Pink    	    FF C0 CB
-LightPink   	FF B6 C1
-HotPink	        FF 69 B4
-DeepPink	    FF 14 93
-PaleVioletRed	DB 70 93
-MediumVioletRed	C7 15 85
+Pink    	    	"#FFC0CB"
+LightPink   		"#FFB6C1"
+HotPink	        	"#FF69B4"
+DeepPink	    	"#FF1493"
+PaleVioletRed		"#DB7093"
+MediumVioletRed		"#C71585"
 
 Red colors	
 
-LightSalmon	    FF A0 7A
-Salmon	        FA 80 72
-DarkSalmon	    E9 96 7A	
-LightCoral	    F0 80 80
-IndianRed	    CD 5C 5C
-Crimson	        DC 14 3C
-Firebrick	    B2 22 22
-DarkRed	        8B 00 00	
-Red	            FF 00 00
+LightSalmon	    	"#FFA07A"
+Salmon	        	"#FA8072"
+DarkSalmon	    	"#E9967A"	
+LightCoral	    	"#F08080"
+IndianRed	    	"#CD5C5C"
+Crimson	        	"#DC143C"
+Firebrick	    	"#B22222"
+DarkRed	        	"#8B0000"	
+Red	            	"#FF0000"
 
 Orange colors	
 
-OrangeRed	    FF 45 00
-Tomato	        FF 63 47
-Coral	        FF 7F 50
-DarkOrange	    FF 8C 00
-Orange	        FF A5 00
+OrangeRed	    	"#FF4500"
+Tomato	        	"#FF6347"
+Coral	        	"#FF7F50"
+DarkOrange	    	"#FF8C00"
+Orange	        	"#FFA500"
 
 Yellow colors	
 
-Yellow	        FF FF 00
-LightYellow	    FF FF E0
-LemonChiffon	FF FA CD
-LightGoldenrodYellow 	FA FA D2
-PapayaWhip	    FF EF D5
-Moccasin	    FF E4 B5
-PeachPuff	    FF DA B9
-PaleGoldenrod	EE E8 AA
-Khaki	        F0 E6 8C
-DarkKhaki	    BD B7 6B
-Gold	        FF D7 00
+Yellow	        	"#FFFF00"
+LightYellow	    	"#FFFFE0"
+LemonChiffon		"#FFFACD"
+LightGoldenrodYellow 	"#FAFAD2"
+PapayaWhip	    	"#FFEFD5"
+Moccasin	    	"#FFE4B5"
+PeachPuff	    	"#FFDAB9"
+PaleGoldenrod		"#EEE8AA"
+Khaki	        	"#F0E68C"
+DarkKhaki	    	"#BDB76B"
+Gold	        	"#FFD700"
 
 Brown colors	
 
-Cornsilk	    FF F8 DC
-BlanchedAlmond	FF EB CD
-Bisque	        FF E4 C4
-NavajoWhite	    FF DE AD
-Wheat	        F5 DE B3
-Burlywood	    DE B8 87
-Tan	            D2 B4 8C
-RosyBrown	    BC 8F 8F
-SandyBrown	    F4 A4 60
-Goldenrod	    DA A5 20
-DarkGoldenrod	B8 86 0B
-Peru	        CD 85 3F
-Chocolate	    D2 69 1E
-SaddleBrown	    8B 45 13
-Sienna	        A0 52 2D
-Brown	        A5 2A 2A
-Maroon	        80 00 00
+Cornsilk	    	"#FFF8DC"
+BlanchedAlmond		"#FFEBCD"
+Bisque	        	"#FFE4C4"
+NavajoWhite	    	"#FFDEAD"
+Wheat	        	"#F5DEB3"
+Burlywood	    	"#DEB887"
+Tan	            	"#D2B48C"
+RosyBrown	    	"#BC8F8F"
+SandyBrown	    	"#F4A460"
+Goldenrod	    	"#DAA520"
+DarkGoldenrod		"#B8860B"
+Peru	        	"#CD853F"
+Chocolate	    	"#D2691E"
+SaddleBrown	    	"#8B4513"
+Sienna	        	"#A0522D"
+Brown	        	"#A52A2A"
+Maroon	        	"#800000"
 
 
 Green colors	
 
-DarkOliveGreen	55 6B 2F
-Olive	        80 80 00
-OliveDrab	    6B 8E 23
-YellowGreen	    9A CD 32
-LimeGreen	    32 CD 32
-Lime	        00 FF 00
-LawnGreen	    7C FC 00
-Chartreuse	    7F FF 00
-GreenYellow	    AD FF 2F
-SpringGreen	    00 FF 7F
-MediumSpringGreen 	00 FA 9A
-LightGreen	    90 EE 90
-PaleGreen	    98 FB 98
-DarkSeaGreen	8F BC 8F
-MediumAquamarine	66 CD AA
-MediumSeaGreen	3C B3 71
-SeaGreen	    2E 8B 57
-ForestGreen	    22 8B 22
-Green	        00 80 00
-DarkGreen	    00 64 00
+DarkOliveGreen		"#556B2F"
+Olive	        	"#808000"
+OliveDrab	    	"#6B8E23"
+YellowGreen	    	"#9ACD32"
+LimeGreen	    	"#32CD32"
+Lime	        	"#00FF00"
+LawnGreen	    	"#7CFC00"
+Chartreuse	    	"#7FFF00"
+GreenYellow	    	"#ADFF2F"
+SpringGreen	    	"#00FF7F"
+MediumSpringGreen 	"#00FA9A"
+LightGreen	    	"#90EE90"
+PaleGreen	    	"#98FB98"
+DarkSeaGreen		"#8FBC8F"
+MediumAquamarine	"#66CDAA"
+MediumSeaGreen		"#3CB371"
+SeaGreen	    	"#2E8B57"
+ForestGreen	    	"#228B22"
+Green	        	"#008000"
+DarkGreen	    	"#006400"
 
 Cyan colors	
 
-Aqua	        00 FF FF
-Cyan	        00 FF FF
-LightCyan	    E0 FF FF
-PaleTurquoise	AF EE EE
-Aquamarine	    7F FF D4
-Turquoise	    40 E0 D0
-MediumTurquoise	48 D1 CC
-DarkTurquoise	00 CE D1
-LightSeaGreen	20 B2 AA
-CadetBlue	    5F 9E A0
-DarkCyan	    00 8B 8B
-Teal	        00 80 80
+Aqua	        	"#00FFFF"
+Cyan	        	"#00FFFF"
+LightCyan	    	"#E0FFFF"
+PaleTurquoise		"#AFEEEE"
+Aquamarine	    	"#7FFFD4"
+Turquoise	    	"#40E0D0"
+MediumTurquoise		"#48D1CC"
+DarkTurquoise		"#00CED1"
+LightSeaGreen		"#20B2AA"
+CadetBlue	    	"#5F9EA0"
+DarkCyan	    	"#008B8B"
+Teal	        	"#008080"
 
 Blue colors	
 
-LightSteelBlue	B0 C4 DE
-PowderBlue	    B0 E0 E6
-LightBlue	    AD D8 E6
-SkyBlue	        87 CE EB
-LightSkyBlue	87 CE FA
-DeepSkyBlue	    00 BF FF
-DodgerBlue	    1E 90 FF
-CornflowerBlue	64 95 ED
-SteelBlue	    46 82 B4
-RoyalBlue	    41 69 E1
-Blue	        00 00 FF
-MediumBlue	    00 00 CD
-DarkBlue	    00 00 8B
-Navy	        00 00 80
-MidnightBlue	19 19 70
+LightSteelBlue		"#B0C4DE"
+PowderBlue	    	"#B0E0E6"
+LightBlue	    	"#ADD8E6"
+SkyBlue	        	"#87CEEB"
+LightSkyBlue		"#87CEFA"
+DeepSkyBlue	    	"#00BFFF"
+DodgerBlue	    	"#1E90FF"
+CornflowerBlue		"#6495ED"
+SteelBlue	    	"#4682B4"
+RoyalBlue	    	"#4169E1"
+Blue	        	"#0000FF"
+MediumBlue	    	"#0000CD"
+DarkBlue	    	"#00008B"
+Navy	        	"#000080"
+MidnightBlue		"#191970"
 
 Purple, violet, and magenta colors	
 
-Lavender	E6 E6 FA
-Thistle	    D8 BF D8
-Plum	    DD A0 DD
-Violet	    EE 82 EE
-Orchid	    DA 70 D6
-Fuchsia	    FF 00 FF
-Magenta	    FF 00 FF
-MediumOrchid	BA 55 D3
-MediumPurple	93 70 DB
-BlueViolet	8A 2B E2
-DarkViolet	94 00 D3
-DarkOrchid	99 32 CC
-DarkMagenta	8B 00 8B
-Purple	    80 00 80
-Indigo	    4B 00 82
-DarkSlateBlue	48 3D 8B
-SlateBlue	6A 5A CD
-MediumSlateBlue 	7B 68 EE
+Lavender			"#E6E6FA"
+Thistle	    		"#D8BFD8"
+Plum	    		"#DDA0DD"
+Violet	    		"#EE82EE"
+Orchid	    		"#DA70D6"
+Fuchsia	    		"#FF00FF"
+Magenta	    		"#FF00FF"
+MediumOrchid		"#BA55D3"
+MediumPurple		"#9370DB"
+BlueViolet			"#8A2BE2"
+DarkViolet			"#9400D3"
+DarkOrchid			"#9932CC"
+DarkMagenta			"#8B008B"
+Purple	    		"#800080"
+Indigo	    		"#4B0082"
+DarkSlateBlue		"#483D8B"
+SlateBlue			"#6A5ACD"
+MediumSlateBlue 	"#7B68EE"
 
 	White colors	
     
-White	    FF FF FF
-Snow	    FF FA FA
-Honeydew	F0 FF F0
-MintCream	F5 FF FA
-Azure	    F0 FF FF
-AliceBlue	F0 F8 FF
-GhostWhite	F8 F8 FF
-WhiteSmoke	F5 F5 F5
-Seashell	FF F5 EE
-Beige	    F5 F5 DC
-OldLace	    FD F5 E6
-FloralWhite	FF FA F0
-Ivory	    FF FF F0
-AntiqueWhite	FA EB D7
-Linen	    FA F0 E6
-LavenderBlush	FF F0 F5
-MistyRose	FF E4 E1
+White	    		"#FFFFFF"
+Snow	    		"#FFFAFA"
+Honeydew			"#F0FFF0"
+MintCream			"#F5FFFA"
+Azure	    		"#F0FFFF"
+AliceBlue			"#F0F8FF"
+GhostWhite			"#F8F8FF"
+WhiteSmoke			"#F5F5F5"
+Seashell			"#FFF5EE"
+Beige	    		"#F5F5DC"
+OldLace	    		"#FDF5E6"
+FloralWhite			"#FFFAF0"
+Ivory	    		"#FFFFF0"
+AntiqueWhite		"#FAEBD7"
+Linen	    		"#FAF0E6"
+LavenderBlush		"#FFF0F5"
+MistyRose			"#FFE4E1"
 
 Gray and black colors	
 
-Gainsboro	DC DC DC
-LightGray	D3 D3 D3
-Silver	    C0 C0 C0
-DarkGray	A9 A9 A9
-Gray	    80 80 80
-DimGray	    69 69 69
-LightSlateGray	77 88 99
-SlateGray	70 80 90
-DarkSlateGray	2F 4F 4F
-Black	    00 00 00
+Gainsboro			"#DCDCDC"
+LightGray			"#D3D3D3"
+Silver	    		"#C0C0C0"
+DarkGray			"#A9A9A9"
+Gray	    		"#808080"
+DimGray	    		"#696969"
+LightSlateGray		"#778899"
+SlateGray			"#708090"
+DarkSlateGray		"#2F4F4F"
+Black	    		"#000000"
+
+
+
