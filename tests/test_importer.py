@@ -252,7 +252,7 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(str(p1.value), str(ls1))
 
         self.assertEqual(p2.name, "font-colour")
-        self.assertEqual(p2.value, "black")
+        self.assertEqual(str(p2.value), "black")
 
         self.assertEqual(p3.name, "margin")
 
@@ -270,7 +270,7 @@ class TestImporter(unittest.TestCase):
         p4 = sr2.properties[0]
 
         self.assertEqual(p4.name, "font-colour")
-        self.assertEqual(p4.value, "red")
+        self.assertEqual(str(p4.value), "red")
 
         self.assertEqual(1, len(sr3.selectors))
         self.assertEqual(1, len(sr3.properties))
