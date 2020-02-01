@@ -1,6 +1,10 @@
 from morphe.core import *
 
 
+propertySynonyms = {
+    "font-color":"font-colour"
+}
+
 allowedProperties = [
     ["font-height", "MLength"],
     ["font-colour", "MColour"]]
@@ -21,10 +25,15 @@ def validateDocument(document):
     for sr in document.styleRules:
         for p in sr.properties:
 
-            if p.name not in apd:
+            name = p.name
+
+            if name in propertySynonyms:
+                name = propertySynonyms[name]
+
+            if name not in apd:
                 raise MorpheValidationError("'{0}' is not a valid Morphe property name.".format(p.name))
 
-            ap = apd[p.name]
+            ap = apd[name]
 
             if ap[1] == "MLength":
                 if not isinstance(p.value, MLength):
