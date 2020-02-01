@@ -146,23 +146,6 @@ class MLengthSet(object):
         return " ".join([str(l) for l in self.lengths])
 
 
-class MBorderStyle(object):
-    """
-    Represents a Morphe border style.
-
-    Parameters
-    ----------
-    value : str
-        The type of border style - one of: solid, dashed, dotted.
-    """
-
-    def __init__(self, value="solid"):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-
 class MElementNameSelector(object):
     """
     Represents a Morphe element name selector.
