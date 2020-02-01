@@ -2,12 +2,20 @@ from morphe.core import *
 
 
 propertySynonyms = {
-    "font-color":"font-colour"
+    "font-color": "font-colour",
+    "background-color": "background-colour",
+    "border-color": "border-colour",
+    "border-top-color": "border-top-colour",
+    "border-right-color": "border-right-colour",
+    "border-bottom-color": "border-bottom-colour",
+    "border-left-color": "border-left-colour",
 }
 
 allowedProperties = [
+    ["font-name", "str"],
     ["font-height", "MLength"],
-    ["font-colour", "MColour"]]
+    ["font-weight",  "MFontWeight"],
+    ["font-colour", "MColour"], ]
 
 apd = {}
 
