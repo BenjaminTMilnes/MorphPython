@@ -49,3 +49,11 @@ from morphe.core import *
 morpheString = exportMorpheDocument(document)
 
 ```
+
+## Running the Unit Tests
+
+```bash
+
+py -m unittest discover
+
+```
