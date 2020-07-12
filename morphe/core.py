@@ -215,6 +215,24 @@ class MIdSelector(object):
         return "#{0}".format(self.id)
 
 
+class MSubelementSelector(object):
+    """
+    Represents a Morphe subelement selector.
+
+    Parameters
+    ----------
+
+    Attributes
+    ----------
+    """
+
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return " "
+
+
 class MStyleRule(object):
     """
     Represents a Morphe style rule. A style rule consists of a list of 
@@ -423,25 +441,44 @@ class MImporter(object):
 
         selectors = []
 
+        addSubelementSelector = False
+
         # Keep iterating until there aren't any more selectors.
         while True:
 
             s = self._getIdSelector(inputText, m)
 
             if s != None:
+                if addSubelementSelector:
+                    selectors.append(MSubelementSelector())
+                    addSubelementSelector = False
+
                 selectors.append(s)
                 continue
 
             s = self._getClassSelector(inputText, m)
 
             if s != None:
+                if addSubelementSelector:
+                    selectors.append(MSubelementSelector())
+                    addSubelementSelector = False
+
                 selectors.append(s)
                 continue
 
             s = self._getElementNameSelector(inputText, m)
 
             if s != None:
+                if addSubelementSelector:
+                    selectors.append(MSubelementSelector())
+                    addSubelementSelector = False
+
                 selectors.append(s)
+                continue
+
+            if cut(inputText, m.p) == " ":
+                addSubelementSelector = True
+                m.p += 1
                 continue
 
             break
@@ -593,6 +630,29 @@ class MImporter(object):
             return None
 
         m.p += 1
+
+        marker.p = m.p
+
+        return properties
+
+    def _getInlineProperties(self, inputText, marker):
+        m = marker.copy()
+
+        self._getWhiteSpace(inputText, m)
+
+        properties = []
+
+        # Keep trying to find properties at the current position until there
+        # aren't any more.
+        while True:
+            p = self._getProperty(inputText, m)
+
+            if p != None:
+                properties.append(p)
+            else:
+                break
+
+        self._getWhiteSpace(inputText, m)
 
         marker.p = m.p
 
@@ -1146,4 +1206,4 @@ def importMorpheProperties(properties):
     """
     importer = MImporter()
 
-    return importer._getProperties(properties, MMarker())
+    return importer._getInlineProperties(properties, MMarker())
