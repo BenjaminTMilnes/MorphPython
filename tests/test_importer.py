@@ -19,6 +19,14 @@ p {
 
 """
 
+example2 = """
+
+p.blue.main#big, div.red.main, ul.green {
+    font-size: 12pt;
+}
+
+"""
+
 
 class TestImporter(unittest.TestCase):
 
@@ -278,6 +286,23 @@ class TestImporter(unittest.TestCase):
         s3 = sr3.selectors[0]
 
         self.assertEqual(s3.id, "infobox")
+
+    def test_import_example_2(self):
+
+        importer = MImporter()
+
+        d = importer.importDocument(example2)
+
+        self.assertEqual(3, len(d.styleRules))
+
+        sr1 = d.styleRules[0]
+        sr2 = d.styleRules[1]
+        sr3 = d.styleRules[2]
+
+        self.assertEqual(4, len(sr1.selectors))
+        self.assertEqual(3, len(sr2.selectors))
+        self.assertEqual(2, len(sr3.selectors))
+
 
 
 if __name__ == "__main__":

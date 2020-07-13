@@ -393,10 +393,10 @@ class MImporter(object):
         styleRules = []
 
         while True:
-            sr = self._getStyleRule(inputText, marker)
+            sr = self._getStyleRules(inputText, marker)
 
             if sr != None:
-                styleRules.append(sr)
+                styleRules += sr
             else:
                 break
 
@@ -406,39 +406,45 @@ class MImporter(object):
 
         return d
 
-    def _getStyleRule(self, inputText, marker):
+    def _getStyleRules(self, inputText, marker):
         """
         Gets a style rule at the current position and returns it.
         """
         m = marker.copy()
 
-        # First there should be a set of selectors.
-        selectors = self._getSelectors(inputText, m)
+        # First there should be some sets of selectors.
+        selectorSets = self._getSelectorSets(inputText, m)
         # Then get a set of properties.
         properties = self._getProperties(inputText, m)
 
         # If either the selectors or the properties are none, then there isn't
         # a complete style rule at the current position, so return nothing.
-        if selectors == None or properties == None:
+        if selectorSets == [] or properties == None:
             return None
 
-        sr = MStyleRule()
+        srs = []
 
-        sr.selectors = selectors
-        sr.properties = properties
+        for selectorSet in selectorSets:
+            sr = MStyleRule()
+
+            sr.selectors = selectorSet
+            sr.properties = properties
+
+            srs.append(sr)
 
         marker.p = m.p
 
-        return sr
+        return srs
 
-    def _getSelectors(self, inputText, marker):
+    def _getSelectorSets(self, inputText, marker):
         """
-        Gets a set of selectors at the current position and returns it.
+        Gets the sets of selectors at the current position and returns them.
         """
         m = marker.copy()
 
         self._getWhiteSpace(inputText, m)
 
+        selectorSets = []
         selectors = []
 
         addSubelementSelector = False
@@ -481,11 +487,23 @@ class MImporter(object):
                 m.p += 1
                 continue
 
+            if cut(inputText, m.p) == ",":
+                selectorSets.append(selectors)
+                selectors = []
+                m.p += 1
+
+                self._getWhiteSpace(inputText, m)
+                
+                continue
+
             break
+
+        if len(selectors) > 0:
+            selectorSets.append(selectors)
 
         marker.p = m.p
 
-        return selectors
+        return selectorSets
 
     def _getIdSelector(self, inputText, marker):
         """
