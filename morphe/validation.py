@@ -15,7 +15,18 @@ allowedProperties = [
     ["font-name", "str"],
     ["font-height", "MLength"],
     ["font-weight",  "MFontWeight"],
-    ["font-colour", "MColour"], ]
+    ["font-slant", "str"],
+    ["font-variant", "str"],
+    ["font-colour", "MColour"],
+    ["line-height", "MLength"],
+    ["text-alignment", "str"],
+    ["text-indentation", "MLength"],
+    ["text-capitalisation", "str"],
+    ["text-underline", "str"],
+    ["text-strikethrough", "str"],
+    ["page-size", "str"],
+    ["page-width", "MLength"],
+    ["page-height", "MLength"], ]
 
 apd = {}
 
