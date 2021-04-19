@@ -2,7 +2,7 @@
 
 class MColour(object):
     """
-    A base class for all Morphe colour objects.
+    A base class for all Morph colour objects.
     """
     pass
 

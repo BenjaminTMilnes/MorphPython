@@ -1,4 +1,4 @@
-from morphe.core import *
+from morph.core import *
 
 
 propertySynonyms = {
@@ -34,9 +34,9 @@ for p in allowedProperties:
     apd[p[0]] = p
 
 
-class MorpheValidationError(Exception):
+class MorphValidationError(Exception):
     def __init__(self, message):
-        super(MorpheValidationError, self).__init__(message)
+        super(MorphValidationError, self).__init__(message)
 
 
 def validateDocument(document):
@@ -50,7 +50,7 @@ def validateDocument(document):
                 name = propertySynonyms[name]
 
             if name not in apd:
-                raise MorpheValidationError("'{0}' is not a valid Morphe property name.".format(p.name))
+                raise MorpheValidationError("'{0}' is not a valid Morph property name.".format(p.name))
 
             ap = apd[name]
 

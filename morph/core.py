@@ -1,10 +1,10 @@
 import math
-from morphe.colour import *
+from morph.colour import *
 
 
 class MProperty(object):
     """
-    Represents a Morphe style property. Style properties have two attributes: a 
+    Represents a Morph style property. Style properties have two attributes: a 
     name, which must be a string, and a value, which can be anything, but which 
     is set to a string by default.
 
@@ -34,7 +34,7 @@ class MProperty(object):
 
 class MNumber(object):
     """
-    Represents a number in a Morphe document. This class just acts as a 
+    Represents a number in a Morph document. This class just acts as a 
     container for a number written as a string.
 
     Parameters
@@ -66,7 +66,7 @@ class MPercentage(object):
 
 class MLengthUnit(object):
     """
-    Represents a Morphe length unit. Morphe length units are a subset of 
+    Represents a Morph length unit. Morph length units are a subset of 
     physical length units that are useful for things on the scale of printed 
     documents.
 
@@ -100,7 +100,7 @@ class MLengthUnit(object):
 
 class MLength(object):
     """
-    Represents a Morphe length. A length consists of a magnitude and a length 
+    Represents a Morph length. A length consists of a magnitude and a length 
     unit.
 
     Parameters
@@ -113,9 +113,9 @@ class MLength(object):
     Attributes
     ----------
     number : MNumber
-        A Morphe number representing the magnitude of this length
+        A Morph number representing the magnitude of this length
     unit : MLengthUnit
-        A Morphe length unit representing the unit of this length
+        A Morph length unit representing the unit of this length
     """
 
     def __init__(self, number="", unit=""):
@@ -129,7 +129,7 @@ class MLength(object):
 
 class MLengthSet(object):
     """
-    Represents a Morphe length set. A length set is a list of n lengths, where 
+    Represents a Morph length set. A length set is a list of n lengths, where 
     n >= 1.
 
     Attributes
@@ -148,7 +148,7 @@ class MLengthSet(object):
 
 class MElementNameSelector(object):
     """
-    Represents a Morphe element name selector.
+    Represents a Morph element name selector.
 
     Parameters
     ----------
@@ -171,7 +171,7 @@ class MElementNameSelector(object):
 
 class MClassSelector(object):
     """
-    Represents a Morphe class name selector.
+    Represents a Morph class name selector.
 
     Parameters
     ----------
@@ -194,7 +194,7 @@ class MClassSelector(object):
 
 class MIdSelector(object):
     """
-    Represents a Morphe id selector.
+    Represents a Morph id selector.
 
     Parameters
     ----------
@@ -217,7 +217,7 @@ class MIdSelector(object):
 
 class MSubelementSelector(object):
     """
-    Represents a Morphe subelement selector.
+    Represents a Morph subelement selector.
 
     Parameters
     ----------
@@ -235,19 +235,19 @@ class MSubelementSelector(object):
 
 class MStyleRule(object):
     """
-    Represents a Morphe style rule. A style rule consists of a list of 
+    Represents a Morph style rule. A style rule consists of a list of 
     selectors and a list of style properties.
 
-    When applied to a Graphe document, the elements of the document will be 
+    When applied to a Graph document, the elements of the document will be 
     filtered based on the selectors of the style rule, and the style properties 
     will be applied to each matching element.
 
     Attributes
     ----------
     selectors : list
-        A list of Morphe selectors
+        A list of Morph selectors
     properties : list<MProperty>
-        A list of Morphe style properties
+        A list of Morph style properties
     """
 
     def __init__(self):
@@ -258,7 +258,7 @@ class MStyleRule(object):
 
 class MDocument(object):
     """
-    Represents a Morphe document. A Morphe document contains a list of style 
+    Represents a Morph document. A Morph document contains a list of style 
     rules.
 
     Attributes
@@ -274,7 +274,7 @@ class MDocument(object):
 
 class MExporter(object):
     """
-    Handles converting Morphe objects into their text representation.
+    Handles converting Morph objects into their text representation.
     """
 
     def exportDocument(self, document):
@@ -293,9 +293,9 @@ class MExporter(object):
             return "".join(["\t{0}\n".format(p) for p in properties])
 
 
-def exportMorpheDocument(document):
+def exportMorphDocument(document):
     """
-    A helper function that takes a Morphe document and returns its text 
+    A helper function that takes a Morph document and returns its text 
     representation.
     """
     exporter = MExporter()
@@ -303,9 +303,9 @@ def exportMorpheDocument(document):
     return exporter.exportDocument(document)
 
 
-def exportMorpheProperties(properties, inline=True):
+def exportMorphProperties(properties, inline=True):
     """
-    A helper function that takes a list of Morphe properties and returns their
+    A helper function that takes a list of Morph properties and returns their
     text representation.
     """
     exporter = MExporter()
@@ -315,7 +315,7 @@ def exportMorpheProperties(properties, inline=True):
 
 class MMarker(object):
     """
-    A marker class used in parsing the Morphe syntax.
+    A marker class used in parsing the Morph syntax.
 
     Attributes
     ----------
@@ -352,9 +352,9 @@ def cut(text, startIndex, length=1):
     return text[a:b]
 
 
-class MorpheSyntaxError(Exception):
+class MorphSyntaxError(Exception):
     """
-    Nice to have a more specific error type for when the Morphe syntax is wrong.
+    Nice to have a more specific error type for when the Morph syntax is wrong.
 
     Parameters
     ----------
@@ -1197,27 +1197,27 @@ class MImporter(object):
         return t
 
 
-def importMorpheDocument(document):
+def importMorphDocument(document):
     """
-    A helper function that takes a Morphe document as a string and returns a 
-    Morphe document object.
+    A helper function that takes a Morph document as a string and returns a 
+    Morph document object.
     """
     importer = MImporter()
 
     return importer.importDocument(document)
 
 
-def importMorpheDocumentFromFile(filePath):
+def importMorphDocumentFromFile(filePath):
     """
-    A helper function that imports a Morphe document from a file.
+    A helper function that imports a Morph document from a file.
     """
     with open(filePath, "r") as fo:
         data = fo.read()
 
-        return importMorpheDocument(data)
+        return importMorphDocument(data)
 
 
-def importMorpheProperties(properties):
+def importMorphProperties(properties):
     """
     A helper function that gets a list of style properties from a string. 
     Useful for importing inline style properties.

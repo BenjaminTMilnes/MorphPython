@@ -1,14 +1,14 @@
-﻿# MorphePython
+﻿# MorphPython
 
-Morphe, from *Morphē*, a Greek word meaning 'form', 'shape', 'beauty', 'outward appearance'.
+Morph, from *Morphē*, a Greek word meaning 'form', 'shape', 'beauty', 'outward appearance'.
 
 ---
 
-Morphe is a language used for describing the appearance of printable documents written in the mark-up language Graphe. Morphe is based heavily on CSS, and many of the names of style properties are the same.
+Morph is a language used for describing the appearance of printable documents written in the mark-up language Graphe. Morph is based heavily on CSS, and many of the names of style properties are the same.
 
-This repository contains a Python implementation of Morphe.
+This repository contains a Python implementation of Morph.
 
-## An example Morphe style sheet
+## An example Morph style sheet
 
 ```css
 
@@ -30,23 +30,23 @@ p.red {
 
 ## Basic usage
 
-Get a Morphe document from a string:
+Get a Morph document from a string:
 
 ```python
 
-from morphe.core import *
+from morph.core import *
 
-document = importMorpheDocument(morpheString)
+document = importMorphDocument(morphString)
 
 ```
 
-Convert a Morphe document to a string:
+Convert a Morph document to a string:
 
 ```python
 
-from morphe.core import *
+from morph.core import *
 
-morpheString = exportMorpheDocument(document)
+morphString = exportMorphDocument(document)
 
 ```
 

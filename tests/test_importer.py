@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized
 
-from morphe.core import *
+from morph.core import *
 
 example1 = """
 

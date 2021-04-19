@@ -1,5 +1,5 @@
 
-from morphe.core import *
+from morph.core import *
 
 import timeit
 
@@ -11,7 +11,7 @@ t = timeit.timeit(lambda: i._getNumber("1.23456789", MMarker()), number=n)
 
 print(t/n)
 
-t = timeit.timeit(lambda: importMorpheDocumentFromFile("examples/example1.morphe"), number=n)
+t = timeit.timeit(lambda: importMorpheDocumentFromFile("examples/example1.morph"), number=n)
 
 print(t/n)
 
@@ -31,6 +31,6 @@ p {
 
 """
 
-t = timeit.timeit(lambda: importMorpheDocument(example1), number=n)
+t = timeit.timeit(lambda: importMorphDocument(example1), number=n)
 
 print(t/n)
