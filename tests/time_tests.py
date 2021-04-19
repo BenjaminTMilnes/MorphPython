@@ -11,7 +11,7 @@ t = timeit.timeit(lambda: i._getNumber("1.23456789", MMarker()), number=n)
 
 print(t/n)
 
-t = timeit.timeit(lambda: importMorpheDocumentFromFile("examples/example1.morph"), number=n)
+t = timeit.timeit(lambda: importMorphDocumentFromFile("examples/example1.morph"), number=n)
 
 print(t/n)
 
